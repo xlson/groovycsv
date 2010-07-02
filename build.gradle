@@ -1,0 +1,36 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: "http://m2repo.spockframework.org/snapshots"
+}
+
+dependencies {
+    groovy group: 'org.codehaus.groovy', name: 'groovy-all', version: '1.7.3'
+    compile 'net.sf.opencsv:opencsv:2.0'
+    testCompile "org.spockframework:spock-core:0.4-groovy-1.7"
+}
+
+version = "0.1-SNAPSHOT"
+
+sourceSets {
+    main {
+        groovy {
+            srcDir 'src'
+        }
+    }
+    test {
+        groovy {
+            srcDir 'test'
+        }
+    }
+}
+
+task ide << {
+  def libDir = file('lib')
+  ant.delete(dir: libDir)
+  copy {
+    from configurations.testRuntime
+    into libDir
+  }
+}
