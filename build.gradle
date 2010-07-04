@@ -26,7 +26,7 @@ sourceSets {
     }
 }
 
-task ide << {
+task downloadDeps << {
   def libDir = file('lib')
   ant.delete(dir: libDir)
   copy {
