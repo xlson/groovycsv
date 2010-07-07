@@ -1,5 +1,6 @@
 import spock.lang.*
 import com.xlson.csvparser.CsvParser
+import com.xlson.csvparser.PropertyMapper
 
 class CsvParserSpec extends Specification {
     def getTestDataWithColumnNamesAnd3Rows() {
@@ -50,5 +51,18 @@ h,drink,60'''
 
         expect:
         data.findAll { (it.Age as int) > 46 }.size() == 2 
+    }
+
+    def "PropertyMapper has a toString() that returns all the data in it's columns."() {
+        setup:
+        def pm = new PropertyMapper(values: values, columns: columns)
+
+        expect:
+        pm.toString() == toStringRepresentation
+
+        where:
+        columns                     |   values          |   toStringRepresentation
+        ['a': 0, 'b': 1, 'c': 2]    |   ['1', '2', '3'] |   "a: 1, b: 2, c: 3"
+        ['Name': 0, 'Age': 1]       |   ['Mark', '56']  |   "Name: Mark, Age: 56"   
     }
 }

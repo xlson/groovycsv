@@ -52,4 +52,8 @@ class PropertyMapper {
             throw new MissingPropertyException(name)
         }
     }
+
+    String toString() {
+        columns.collect { key, index -> "$key: ${values[index]}" }.join(', ')
+    }
 }
