@@ -16,20 +16,6 @@ a,paris,5
 h,drink,60'''
     }
 
-
-    def "size() lists the amount of rows not counting the header row."() {
-        setup:
-        def data = new CsvParser().parse(csv)
-
-        expect:
-        data.size() == size
-
-        where:
-        csv                                  | size
-        getTestDataWithColumnNamesAnd3Rows() | 3
-        getTestDataWithColumnNamesAnd2Rows() | 2
-    }
-
     def "Iterating over the parsed csv values are available by column name."() {
         setup:
         def data = new CsvParser().parse(getTestDataWithColumnNamesAnd3Rows())

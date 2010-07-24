@@ -52,8 +52,9 @@ class CsvParser {
     def parse(String csv) {
         def reader = new CSVReader(new StringReader(csv))
         def lines = reader.readAll()
-        new CsvData(columns: buildColumnMap(lines[0]),
-                rows: lines[1..-1])
+
+        new CsvIterator(rowIterator: lines[1..-1].iterator(),
+                columns: buildColumnMap(lines[0])) as Iterator
     }
 
     private def buildColumnMap(headers) {
