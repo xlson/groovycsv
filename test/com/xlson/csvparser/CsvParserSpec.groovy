@@ -1,6 +1,7 @@
 import spock.lang.*
 import com.xlson.csvparser.CsvParser
 import com.xlson.csvparser.PropertyMapper
+import au.com.bytecode.opencsv.CSVReader
 
 class CsvParserSpec extends Specification {
     def getTestDataWithColumnNamesAnd3Rows() {
@@ -51,4 +52,21 @@ h,drink,60'''
         ['a': 0, 'b': 1, 'c': 2]    |   ['1', '2', '3'] |   "a: 1, b: 2, c: 3"
         ['Name': 0, 'Age': 1]       |   ['Mark', '56']  |   "Name: Mark, Age: 56"   
     }
+
+    def "readAll should never be called on the CSVReader instance used to parse the csv."() {
+        setup:
+        CSVReader csvReader = Mock(CSVReader)
+        def partiallyMockedCsvParser = new CsvParser()
+        partiallyMockedCsvParser.metaClass.createCSVReader = { Reader reader ->
+            csvReader
+        }
+
+        when: "csv is parsed and looped through"
+        def data = partiallyMockedCsvParser.parse(getTestDataWithColumnNamesAnd2Rows())
+        for(d in data) {}
+
+        then: "readAll() should not be called."
+        0 * csvReader.readAll()
+    }
+    
 }

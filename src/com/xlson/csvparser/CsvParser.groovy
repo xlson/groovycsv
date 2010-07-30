@@ -50,11 +50,19 @@ class CsvParser {
      * @return an instance of <code>CsvData</code>
      */
     def parse(String csv) {
-        def reader = new CSVReader(new StringReader(csv))
+        def reader = createCSVReader(csv)
         def lines = reader.readAll()
 
         new CsvIterator(rowIterator: lines[1..-1].iterator(),
                 columns: buildColumnMap(lines[0])) as Iterator
+    }
+
+    private CSVReader createCSVReader(String csv) {
+        return createCSVReader(new StringReader(csv))
+    }
+
+    private CSVReader createCSVReader(Reader reader) {
+        return new CSVReader(reader)
     }
 
     private def buildColumnMap(headers) {
