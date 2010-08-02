@@ -16,32 +16,65 @@
 
 package com.xlson.csvparser
 
+import au.com.bytecode.opencsv.CSVReader
+
 /**
- * CsvIterator acts as a proxy around the <code>rowIterator</code> sent to it
- * and delegates all calls but <code>next()</code> to it. 
+ * Iterates over the csv data in a non-synchronized way.
  *
  * @author Leonard Axelsson
  * @since 0.1
  */
-class CsvIterator {
+class CsvIterator implements Iterator {
 
-    /**
-     * The underlying iterator.
-     */
-    @Delegate
-    Iterator rowIterator
+    private def columns
 
+    private CSVReader csvReader
 
+    private def readValue
 
-    /**
-     * The columns of the csv data.
-     */
-    def columns
+    def CsvIterator(def columnNames, CSVReader csvReader) {
+        this.columns = [:]
+        columnNames.eachWithIndex { name, i ->
+            columns."$name" = i
+        }
+
+        this.csvReader = csvReader
+    }
+
+    boolean hasNext() {
+        nextValueIsRead() || (readValue = csvReader.readNext()) != null
+    }
+
+    private boolean nextValueIsRead() {
+        readValue as boolean
+    }
+
+    private def getNextValue() {
+        if(nextValueIsRead()) {
+            def value = readValue
+            readValue = null
+            return value
+        } else {
+            return csvReader.readNext()
+        }
+    }
+
 
     /**
      * Gets the next row in the csv file.
      *
      * @return an instance of <code>PropertyMapper</code>
      */
-    def next() { new PropertyMapper(columns: columns, values: rowIterator.next()) }
+    def next() {
+        new PropertyMapper(columns: columns, values: nextValue)
+    }
+
+    /**
+     * remove is not supported in CsvIterator.
+     *
+     * @throws UnsupportedOperationException when called
+     */
+    void remove() {
+        throw new UnsupportedOperationException()
+    }
 }
