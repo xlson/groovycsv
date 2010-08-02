@@ -41,20 +41,18 @@ import au.com.bytecode.opencsv.CSVReader
 class CsvParser {
 
     /**
-     * Parses the supplied csv into a CsvData instance that can be used
-     * to access the data. The first line of the csv will be used as
-     * column-headers.
-     *
-     *
+     * Parses the supplied csv  and returns a CsvIterator that can be
+     * use to access the data. The first line of the csv will be used
+     * as column-headers.
+     *         *
      * @param csv the csv to parse
-     * @return an instance of <code>CsvData</code>
+     * @return an instance of <code>com.xlson.csvparser.CsvIterator</code>
      */
     def parse(String csv) {
         def reader = createCSVReader(csv)
-        def lines = reader.readAll()
+        def columnNames = reader.readNext()
 
-        new CsvIterator(rowIterator: lines[1..-1].iterator(),
-                columns: buildColumnMap(lines[0])) as Iterator
+        new CsvIterator(columnNames, reader)
     }
 
     private CSVReader createCSVReader(String csv) {
@@ -63,14 +61,6 @@ class CsvParser {
 
     private CSVReader createCSVReader(Reader reader) {
         return new CSVReader(reader)
-    }
-
-    private def buildColumnMap(headers) {
-        def columns = [:]
-        headers.eachWithIndex { columnName, index ->
-            columns.put(columnName, index)
-        }
-        columns
     }
 
 }
