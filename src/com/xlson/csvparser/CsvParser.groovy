@@ -44,8 +44,14 @@ class CsvParser {
      * Parses the supplied csv  and returns a CsvIterator that can be
      * use to access the data. The first line of the csv will be used
      * as column-headers.
-     *         *
+     * <p>
+     * Arguments for configuration:
+     * <li>separator : Sets a custom separator like tab
+     * <li>quoteChar : Sets a custom quote character
+     * <li>escapeChar : Sets a custom escape character for the separator and quoteChar
+     * 
      * @param csv the csv to parse
+     * @param args the configuration arguments
      * @return an instance of <code>com.xlson.csvparser.CsvIterator</code>
      */
     def parse(Map args = [:], String csv) {
@@ -61,9 +67,14 @@ class CsvParser {
 
     private CSVReader createCSVReader(Map args = [:], Reader reader) {
         char separator = args.separator ?: ','
+        char quoteChar = args.quoteChar ?: '"'
+        char escapeChar = args.escapeChar
 
-        //public CSVReader(java.io.Reader reader, char separator, char quotechar, char escape, int line)
-        return new CSVReader(reader, separator)
+        if(escapeChar) {
+            return new CSVReader(reader, separator, quoteChar, escapeChar)             
+        } else {
+            return new CSVReader(reader, separator, quoteChar)
+        }
     }
 
 }

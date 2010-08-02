@@ -88,5 +88,39 @@ Kiwi:200'''
         "Fruit"         |   ['Apple', 'Pear', 'Kiwi']
         "Count"         |   ["5", "10", "200"]
     }
-    
+
+    def getCsvUsingDoubleQuoteAsQuoteChar() {
+        '''Typo,Desc
+123,"text ,and more"'''
+    }
+
+    def getCsvUsingPercentageAsQuoteChar() {
+        '''Typo,Desc
+1123,%bla, ha%'''
+
+    }
+
+    def "Parse supports custom quote character."() {
+        when:
+        def csv = new CsvParser().parse(csvData, quoteChar: quoteChar)
+
+        then:
+        csv*."$columnName" == values
+
+        where:
+        csvData                         |   quoteChar   |   values              |   columnName
+        csvUsingDoubleQuoteAsQuoteChar  |   '"'         |   ['text ,and more']   |   "Desc"
+        csvUsingPercentageAsQuoteChar   |   "%"         |   ['bla, ha']          |   "Desc"
+    }
+
+    def "Parse supports custom escape char."() {
+        setup:
+        def csvData = '''Test,It
+1,"this is \"a quote\""'''
+        def csv = new CsvParser().parse(csvData, escapeChar: "\\")
+
+        expect:
+        csv*.It == ['this is "a quote"']
+
+    }
 }
