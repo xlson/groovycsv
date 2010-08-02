@@ -48,19 +48,22 @@ class CsvParser {
      * @param csv the csv to parse
      * @return an instance of <code>com.xlson.csvparser.CsvIterator</code>
      */
-    def parse(String csv) {
-        def reader = createCSVReader(csv)
+    def parse(Map args = [:], String csv) {
+        def reader = createCSVReader(args, csv)
         def columnNames = reader.readNext()
 
         new CsvIterator(columnNames, reader)
     }
 
-    private CSVReader createCSVReader(String csv) {
-        return createCSVReader(new StringReader(csv))
+    private CSVReader createCSVReader(Map args = [:], String csv) {
+        return createCSVReader(args, new StringReader(csv))
     }
 
-    private CSVReader createCSVReader(Reader reader) {
-        return new CSVReader(reader)
+    private CSVReader createCSVReader(Map args = [:], Reader reader) {
+        char separator = args.separator ?: ','
+
+        //public CSVReader(java.io.Reader reader, char separator, char quotechar, char escape, int line)
+        return new CSVReader(reader, separator)
     }
 
 }

@@ -17,6 +17,13 @@ a,paris,5
 h,drink,60'''
     }
 
+    def getCsvWithColonAsSeparator() {
+        '''Fruit:Count
+Apple:5
+Pear:10
+Kiwi:200'''        
+    }
+
     def "Iterating over the parsed csv values are available by column name."() {
         setup:
         def data = new CsvParser().parse(getTestDataWithColumnNamesAnd3Rows())
@@ -67,6 +74,19 @@ h,drink,60'''
 
         then: "readAll() should not be called."
         0 * csvReader.readAll()
+    }
+
+    def "Parse supports a custom separator."() {
+        setup:
+        def data = new CsvParser().parse(csvWithColonAsSeparator, separator: ':')
+
+        expect:
+        data*."$columnName" == values
+
+        where:
+        columnName      |   values
+        "Fruit"         |   ['Apple', 'Pear', 'Kiwi']
+        "Count"         |   ["5", "10", "200"]
     }
     
 }
