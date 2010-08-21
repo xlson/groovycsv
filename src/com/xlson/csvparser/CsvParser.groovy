@@ -41,6 +41,18 @@ import au.com.bytecode.opencsv.CSVReader
 class CsvParser {
 
     /**
+     * Parses the csv supplied using the reader. See parse(Reader reader) for
+     * more information about usage.
+     *
+     * @param args configurable parameters
+     * @param csv the csv to parse
+     * @return an instance of <code>com.xlson.csvparser.CsvIterator</code>
+     */
+    def parse(Map args = [:], String csv) {
+        parse(args, new StringReader(csv))
+    }
+
+    /**
      * Parses the supplied csv  and returns a CsvIterator that can be
      * use to access the data. The first line of the csv will be used
      * as column-headers.
@@ -49,20 +61,16 @@ class CsvParser {
      * <li>separator : Sets a custom separator like tab
      * <li>quoteChar : Sets a custom quote character
      * <li>escapeChar : Sets a custom escape character for the separator and quoteChar
-     * 
-     * @param csv the csv to parse
+     *
+     * @param reader the csv to parse
      * @param args the configuration arguments
      * @return an instance of <code>com.xlson.csvparser.CsvIterator</code>
      */
-    def parse(Map args = [:], String csv) {
-        def reader = createCSVReader(args, csv)
-        def columnNames = reader.readNext()
+    def parse(Map args = [:], Reader reader) {
+        def csvReader = createCSVReader(args, reader)
+        def columnNames = csvReader.readNext()
 
-        new CsvIterator(columnNames, reader)
-    }
-
-    private CSVReader createCSVReader(Map args = [:], String csv) {
-        return createCSVReader(args, new StringReader(csv))
+        new CsvIterator(columnNames, csvReader)
     }
 
     private CSVReader createCSVReader(Map args = [:], Reader reader) {

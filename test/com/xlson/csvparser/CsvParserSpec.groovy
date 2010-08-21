@@ -123,4 +123,12 @@ Kiwi:200'''
         csv*.It == ['this is "a quote"']
 
     }
+
+    def "Parse supports java.io.Reader as input."() {
+        when:
+        def csv = new CsvParser().parse(new StringReader(testDataWithColumnNamesAnd2Rows))
+
+        then:
+        csv*.Number == ['5', '60']
+    }
 }
