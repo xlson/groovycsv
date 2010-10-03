@@ -15,6 +15,7 @@ script.
 * Value-access by header name
 * Iteration using the ordinary collection methods (`findAll`, `collect`
   and so on)
+* Full support for OpenCSV's configurability
 
 ## Example
 
@@ -65,4 +66,3 @@ doing all the heavy lifting.
 
 * Validation
 * Conversion support for primitives
-* Full support for OpenCSV's configurability
