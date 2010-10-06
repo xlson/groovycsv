@@ -16,6 +16,7 @@ dependencies {
 
 version = '0.2-SNAPSHOT'
 group = 'com.xlson.groovycsv'
+packaging = 'jar'
 
 sourceSets {
     main {
@@ -47,7 +48,16 @@ artifacts {
 
 configure(install.repositories.mavenInstaller) {
     pom.project {
+        name 'GroovyCSV'
+        description 'Library for parsing csv in Groovy'
+        url 'http://github.com/xlson/groovycsv'
         inceptionYear '2010'
+        
+        scm {
+            url 'http://github.com/xlson/groovycsv'
+            connection 'http://github.com/xlson/groovycsv'
+        }
+        
         licenses {
             license {
                 name 'The Apache Software License, Version 2.0'
