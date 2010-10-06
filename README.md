@@ -44,14 +44,14 @@ example we see the for each loop in use.
 
 ## Building
 
-csv-parser uses Gradle for building. Gradle handles the dependencies
+GroovyCSV uses Gradle for building. Gradle handles the dependencies
 for you so all you need to do is install gradle and then build the 
 code. 
 
 **Build instruction**
 
-1. Download and install [Gradle 0.9-preview-3](http://www.gradle.org/downloads.html)
-2. Fetch the latest code: `git clone git://github.com/xlson/csv-parser.git`
+1. Download and install [Gradle 0.9-rc-1](http://www.gradle.org/downloads.html)
+2. Fetch the latest code: `git clone git://github.com/xlson/groovycsv.git`
 3. (Optional) Run the tests using `gradle test`
 4. Go to the project directory and run: `gradle jar`
 
