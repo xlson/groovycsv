@@ -13,7 +13,7 @@ dependencies {
     testCompile "org.objenesis:objenesis:1.2"
 }
 
-version = "0.1-SNAPSHOT"
+version = "0.2-SNAPSHOT"
 
 sourceSets {
     main {
