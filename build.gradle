@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
@@ -13,7 +14,8 @@ dependencies {
     testCompile "org.objenesis:objenesis:1.2"
 }
 
-version = "0.2-SNAPSHOT"
+version = '0.2-SNAPSHOT'
+group = 'com.xlson.groovycsv'
 
 sourceSets {
     main {
@@ -24,6 +26,29 @@ sourceSets {
     test {
         groovy {
             srcDir 'test'
+        }
+    }
+}
+
+task documentationZip(type: Zip, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    extension = 'jar'
+    from 'build/docs/groovydoc'
+}
+
+artifacts {
+    archives documentationZip
+}
+
+configure(install.repositories.mavenInstaller) {
+    pom.project {
+        inceptionYear '2010'
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
         }
     }
 }
