@@ -2,7 +2,6 @@ package com.xlson.groovycsv
 
 import spock.lang.Specification
 import au.com.bytecode.opencsv.CSVReader
-import com.xlson.groovycsv.CsvIterator
 
 class CsvIteratorSpec extends Specification {
 

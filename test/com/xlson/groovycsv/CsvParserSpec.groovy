@@ -1,8 +1,6 @@
 package com.xlson.groovycsv
 
 import spock.lang.*
-import com.xlson.groovycsv.CsvParser
-import com.xlson.groovycsv.PropertyMapper
 import au.com.bytecode.opencsv.CSVReader
 
 class CsvParserSpec extends Specification {

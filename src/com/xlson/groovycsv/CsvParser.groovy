@@ -46,7 +46,7 @@ class CsvParser {
      *
      * @param args configurable parameters
      * @param csv the csv to parse
-     * @return an instance of <code>com.xlson.csvparser.CsvIterator</code>
+     * @return an instance of <code>com.xlson.groovycsv.CsvIterator</code>
      */
     def parse(Map args = [:], String csv) {
         parse(args, new StringReader(csv))
@@ -64,7 +64,7 @@ class CsvParser {
      *
      * @param reader the csv to parse
      * @param args the configuration arguments
-     * @return an instance of <code>com.xlson.csvparser.CsvIterator</code>
+     * @return an instance of <code>com.xlson.groovycsv.CsvIterator</code>
      */
     def parse(Map args = [:], Reader reader) {
         def csvReader = createCSVReader(args, reader)
