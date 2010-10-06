@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xlson.csvparser
+package com.xlson.groovycsv
 
 /**
  * Maps between column names and values in a list. Uses <code>propertyMissing</code>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xlson.csvparser
+package com.xlson.groovycsv
 
 import au.com.bytecode.opencsv.CSVReader
 
