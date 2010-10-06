@@ -43,11 +43,13 @@ class CsvIteratorSpec extends Specification {
 
         when:
         iter.next()
+        iter.hasNext()
+        //println iter.hasNext()
+        //println iter.isClosed()
 
         then:
-        1 * csvReader.close()
         iter.isClosed()
-        !iter.hasNext()
+        1 * csvReader.close()
     }
 
     def "close can be called on the CsvIterator to close the connection to the reader."() {
@@ -64,10 +66,9 @@ class CsvIteratorSpec extends Specification {
 
         when:
         iter.next()
-        iter.next()
 
         then:
-        thrown(IOException)
+        thrown(IllegalStateException)
 
     }
 

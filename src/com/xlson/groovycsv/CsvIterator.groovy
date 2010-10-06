@@ -46,19 +46,34 @@ class CsvIterator implements Iterator {
     /**
      * Closes the underlying reader object. Could be useful if one would
      * not like to read all of the csv into memory.
+     *
+     * @throws IllegalStateException if the underlying dataset is already closed.
      */
     void close() {
+        throwsExceptionIfClosed()
+
         closed = true
         csvReader.close()
     }
 
+    /**
+     * Checks if there is more data available. Will close the underlying dataset
+     * if there isn't any more data.
+     *
+     * @throws IllegalStateException if the underlying dataset is already closed.
+     * @return true if there is more data in the iterator
+     */
     boolean hasNext() {
+        throwsExceptionIfClosed()
+
         if(nextValueIsRead()) {
             return true
-        } else if(isClosed()) {
-            return false
         } else {
-            return (readValue = csvReader.readNext()) != null
+            readValue = csvReader.readNext()
+            if(readValue == null) {
+                close()
+            }
+            return readValue != null
         }
 
     }
@@ -93,12 +108,15 @@ class CsvIterator implements Iterator {
      * @return an instance of <code>PropertyMapper</code>
      */
     def next() {
-        def value = new PropertyMapper(columns: columns, values: nextValue)
-        if(!hasNext()) {
-            close()
-        }
+        throwsExceptionIfClosed()
 
-        return value
+        new PropertyMapper(columns: columns, values: nextValue)
+    }
+
+    private def throwsExceptionIfClosed() {
+        if (isClosed()) {
+            throw new IllegalStateException("The connection the underlying dataset has already been closed.")
+        }
     }
 
     /**
