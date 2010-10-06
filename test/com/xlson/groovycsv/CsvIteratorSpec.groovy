@@ -38,6 +38,7 @@ class CsvIteratorSpec extends Specification {
 
         then:
         iter.hasNext()
+        !iter.isClosed()
         0 * csvReader.close()
 
         when:
@@ -45,7 +46,29 @@ class CsvIteratorSpec extends Specification {
 
         then:
         1 * csvReader.close()
+        iter.isClosed()
         !iter.hasNext()
+    }
+
+    def "close can be called on the CsvIterator to close the connection to the reader."() {
+        setup:
+        def (colNames, csvReader) = csvData
+        def iter = new CsvIterator(colNames, csvReader)
+
+        when:
+        iter.next()
+        iter.close()
+
+        then:
+        iter.isClosed()
+
+        when:
+        iter.next()
+        iter.next()
+
+        then:
+        thrown(IOException)
+
     }
 
 }

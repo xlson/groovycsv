@@ -43,6 +43,11 @@ class CsvIterator implements Iterator {
         this.csvReader = csvReader
     }
 
+    void close() {
+        closed = true
+        csvReader.close()
+    }
+
     boolean hasNext() {
         if(nextValueIsRead()) {
             return true
@@ -81,8 +86,7 @@ class CsvIterator implements Iterator {
     def next() {
         def value = new PropertyMapper(columns: columns, values: nextValue)
         if(!hasNext()) {
-            closed = true
-            csvReader.close()
+            close()
         }
 
         return value
