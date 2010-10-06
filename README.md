@@ -62,7 +62,7 @@ end up in the `lib` folder.
 ## Dependencies
 
 * [Groovy 1.7.x](http://groovy.codehaus.org)
-* [OpenCSV 2.0](http://opencsv.sourceforge.net/)
+* [OpenCSV 2.1](http://opencsv.sourceforge.net/)
 
 Many thanks to Glen Smith and the other's in the OpenCSV team for
 doing all the heavy lifting.
