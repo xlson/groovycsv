@@ -1,6 +1,6 @@
-# csv-parser
+# GroovyCSV
 
-csv-parser is a library for Groovy which aims to make csv data
+GroovyCSV is a library for Groovy which aims to make csv data
 easier to work with. The library was inspired by @[goeh's](http://twitter.com/goeh)
 [ExcelBuilder](http://www.technipelago.se/blog/?p=44) that lets you
 iterate over rows in the excel file using `eachLine` and access values
@@ -9,6 +9,11 @@ using the column names.
 At the moment there's no official release so you will have to download
 and build it yourself using the [Gradle](http://www.gradle.org/) build
 script.
+
+*Important*
+
+Package structure was changed from `com.xlson.csvparser` to
+`com.xlson.groovycsv` between release 0.1 and 0.2.
 
 ## Features
 
