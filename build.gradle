@@ -30,14 +30,19 @@ sourceSets {
     }
 }
 
-task documentationZip(type: Zip, dependsOn: groovydoc) {
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
     classifier = 'javadoc'
-    extension = 'jar'
     from 'build/docs/groovydoc'
 }
 
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
 artifacts {
-    archives documentationZip
+    archives groovydocJar
+    archives sourcesJar
 }
 
 configure(install.repositories.mavenInstaller) {
