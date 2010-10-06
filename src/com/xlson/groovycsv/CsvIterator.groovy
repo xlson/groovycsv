@@ -32,6 +32,8 @@ class CsvIterator implements Iterator {
 
     private def readValue
 
+    private Boolean closed = false
+
     def CsvIterator(def columnNames, CSVReader csvReader) {
         this.columns = [:]
         columnNames.eachWithIndex { name, i ->
@@ -42,7 +44,18 @@ class CsvIterator implements Iterator {
     }
 
     boolean hasNext() {
-        nextValueIsRead() || (readValue = csvReader.readNext()) != null
+        if(nextValueIsRead()) {
+            return true
+        } else if(isClosed()) {
+            return false
+        } else {
+            return (readValue = csvReader.readNext()) != null
+        }
+
+    }
+
+    boolean isClosed() {
+        closed
     }
 
     private boolean nextValueIsRead() {
@@ -66,7 +79,13 @@ class CsvIterator implements Iterator {
      * @return an instance of <code>PropertyMapper</code>
      */
     def next() {
-        new PropertyMapper(columns: columns, values: nextValue)
+        def value = new PropertyMapper(columns: columns, values: nextValue)
+        if(!hasNext()) {
+            closed = true
+            csvReader.close()
+        }
+
+        return value
     }
 
     /**

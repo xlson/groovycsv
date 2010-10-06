@@ -27,4 +27,25 @@ class CsvIteratorSpec extends Specification {
         !iter.hasNext()
     }
 
+    def "CsvIterator should close the underlying CSVReader instance when reaching the end of the file."() {
+        setup:
+        CSVReader csvReader = Mock(CSVReader)
+        def iter = new CsvIterator(["a", "b"], csvReader)
+        csvReader.readNext() >>> [["1","2"],["3","4"], null]
+
+        when:
+        iter.next()
+
+        then:
+        iter.hasNext()
+        0 * csvReader.close()
+
+        when:
+        iter.next()
+
+        then:
+        1 * csvReader.close()
+        !iter.hasNext()
+    }
+
 }
