@@ -43,6 +43,10 @@ class CsvIterator implements Iterator {
         this.csvReader = csvReader
     }
 
+    /**
+     * Closes the underlying reader object. Could be useful if one would
+     * not like to read all of the csv into memory.
+     */
     void close() {
         closed = true
         csvReader.close()
@@ -59,6 +63,11 @@ class CsvIterator implements Iterator {
 
     }
 
+    /**
+     * Checks if the underlying reader is closed.
+     *
+     * @return true if the underlying reader is closed
+     */
     boolean isClosed() {
         closed
     }
