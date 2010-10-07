@@ -6,8 +6,9 @@ easier to work with. The library was inspired by @[goeh's](http://twitter.com/go
 iterate over rows in the excel file using `eachLine` and access values
 using the column names.
 
-At the moment there's no official release so you will have to download
-and build it yourself using the [Gradle](http://www.gradle.org/) build
+There is no official release at the moment but there is a SNAPSHOT
+release of 0.2 that is published to Sonatypes public oss repo. Check
+the example for instructions on how to use it. You could also build GroovyCSV yourself using the [Gradle](http://www.gradle.org/) build
 script.
 
 *Important*
@@ -28,10 +29,16 @@ The parse method returns an iterator over the rows in the csv. This
 means we can use any of the default groovy ways to iterate, in this
 example we see the for each loop in use.
 
+    @GrabResolver(name='Nexus OSS Repo',
+        root='https://oss.sonatype.org/content/groups/public/',
+        m2Compatible='true')
+    @Grab('com.xlson.groovycsv:groovycsv:0.2-SNAPSHOT')
+    import com.xlson.groovycsv.CsvParser
+    
     def csv = '''Name,Lastname
     Mark,Andersson
     Pete,Hansen'''
-
+    
     def data = new CsvParser().parse(csv)
     for(line in data) {
         println "$line.Name $line.Lastname"
@@ -41,6 +48,17 @@ example we see the for each loop in use.
 
     Mark Andersson
     Pete Hansen
+
+## Getting GroovyCSV
+
+GroovyCSV is available in Sonatypes public oss repo. Use the
+information specified below in your maven- or ivy-configuration to get
+it.
+
+* *Repo:* [https://oss.sonatype.org/content/groups/public/](https://oss.sonatype.org/content/groups/public/)
+* *GroupId:* com.xlson.groovycsv
+* *ArtifactId:* groovycsv
+* *Version:* 0.2-SNAPSHOT
 
 ## Building
 
@@ -62,7 +80,7 @@ end up in the `lib` folder.
 ## Dependencies
 
 * [Groovy 1.7.x](http://groovy.codehaus.org)
-* [OpenCSV 2.1](http://opencsv.sourceforge.net/)
+* [OpenCSV 2.x](http://opencsv.sourceforge.net/)
 
 Many thanks to Glen Smith and the other's in the OpenCSV team for
 doing all the heavy lifting.
