@@ -16,7 +16,6 @@ dependencies {
 
 version = '0.2-SNAPSHOT'
 group = 'com.xlson.groovycsv'
-packaging = 'jar'
 
 sourceSets {
     main {
@@ -52,12 +51,12 @@ configure(install.repositories.mavenInstaller) {
         description 'Library for parsing csv in Groovy'
         url 'http://github.com/xlson/groovycsv'
         inceptionYear '2010'
-        
+
         scm {
-            url 'http://github.com/xlson/groovycsv'
+            url 'scm:git:git@github.com:xlson/groovycsv.git'
             connection 'http://github.com/xlson/groovycsv'
         }
-        
+
         licenses {
             license {
                 name 'The Apache Software License, Version 2.0'
@@ -68,11 +67,56 @@ configure(install.repositories.mavenInstaller) {
     }
 }
 
+uploadArchives {
+    // Checks if login information for the logon repo is set correctly.
+    // Should be set in gradle.properties (check gradle.properties.example)
+    assert project.hasProperty('repoUserName')
+    assert project.hasProperty('repoPassword')
+
+    repositories.mavenDeployer {
+        configuration = configurations.archives
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            authentication(userName: repoUserName, password: repoPassword)
+        }
+
+        pom.project {
+            name 'GroovyCSV'
+            packaging 'jar' // not working
+            description 'Library for parsing csv in Groovy'
+            url 'http://github.com/xlson/groovycsv'
+            inceptionYear '2010'
+
+            scm {
+                url 'scm:git:git@github.com:xlson/groovycsv.git'
+                connection 'http://github.com/xlson/groovycsv'
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'xlson'
+                    name 'Leonard Axelsson'
+                    email 'leonard.axelsson@gmail.com'
+                    url 'http://xlson.com/'
+                    timezone '+1'
+                }
+            }
+        }
+    }
+}
+
 task downloadDeps << {
-  def libDir = file('lib')
-  ant.delete(dir: libDir)
-  copy {
-    from configurations.testRuntime
-    into libDir
-  }
+    def libDir = file('lib')
+    ant.delete(dir: libDir)
+    copy {
+        from configurations.testRuntime
+        into libDir
+    }
 }
