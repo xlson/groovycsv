@@ -52,6 +52,23 @@ class CsvIteratorSpec extends Specification {
         1 * csvReader.close()
     }
 
+    def "CsvIterator isClosed after a full iteration."() {
+        setup:
+        def csvIterator = new CsvIterator(*csvData)
+
+        when:
+        csvIterator.each { }
+
+        then:
+        csvIterator.isClosed()
+
+        when:
+        csvIterator.next()
+
+        then:
+        thrown(IllegalStateException)
+    }
+
     def "close can be called on the CsvIterator to close the connection to the reader."() {
         setup:
         def (colNames, csvReader) = csvData
