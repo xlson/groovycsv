@@ -45,71 +45,49 @@ artifacts {
     archives sourcesJar
 }
 
-configure(install.repositories.mavenInstaller) {
-    pom.project {
-        name 'GroovyCSV'
-        description 'Library for parsing csv in Groovy'
-        url 'http://github.com/xlson/groovycsv'
-        inceptionYear '2010'
-
-        scm {
-            url 'scm:git:git@github.com:xlson/groovycsv.git'
-            connection 'http://github.com/xlson/groovycsv'
-        }
-
-        licenses {
-            license {
-                name 'The Apache Software License, Version 2.0'
-                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                distribution 'repo'
-            }
-        }
-    }
-}
-
 uploadArchives {
     // Checks if login information for the logon repo is set correctly.
     // Should be set in gradle.properties (check gradle.properties.example)
-    assert project.hasProperty('repoUserName')
-    assert project.hasProperty('repoPassword')
-
-    repositories.mavenDeployer {
-        configuration = configurations.archives
-        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-            authentication(userName: repoUserName, password: repoPassword)
-        }
-
-        pom.project {
-            name 'GroovyCSV'
-            packaging 'jar' // not working
-            description 'Library for parsing csv in Groovy'
-            url 'http://github.com/xlson/groovycsv'
-            inceptionYear '2010'
-
-            scm {
-                url 'scm:git:git@github.com:xlson/groovycsv.git'
-                connection 'http://github.com/xlson/groovycsv'
+    if(project.hasProperty('repoUserName') && project.hasProperty('repoPassword')) {
+        repositories.mavenDeployer {
+            configuration = configurations.archives
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: repoUserName, password: repoPassword)
             }
-
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+            
+            pom.project {
+                name 'GroovyCSV'
+                packaging 'jar' // not working
+                description 'Library for parsing csv in Groovy'
+                url 'http://github.com/xlson/groovycsv'
+                inceptionYear '2010'
+            
+                scm {
+                    url 'scm:git:git@github.com:xlson/groovycsv.git'
+                    connection 'http://github.com/xlson/groovycsv'
                 }
-            }
-
-            developers {
-                developer {
-                    id 'xlson'
-                    name 'Leonard Axelsson'
-                    email 'leonard.axelsson@gmail.com'
-                    url 'http://xlson.com/'
-                    timezone '+1'
+            
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+            
+                developers {
+                    developer {
+                        id 'xlson'
+                        name 'Leonard Axelsson'
+                        email 'leonard.axelsson@gmail.com'
+                        url 'http://xlson.com/'
+                        timezone '+1'
+                    }
                 }
             }
         }
     }
+
 }
 
 task downloadDeps << {
