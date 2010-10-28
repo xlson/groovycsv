@@ -34,6 +34,31 @@ import au.com.bytecode.opencsv.CSVReader
  *   println "$line.Name $line.Lastname"
  * }</pre>
  *
+ * <p><b>Parser configuration</b></p>
+ *
+ * <p>
+ * There parser is configurable using named arguments. These arguments are available.
+ *
+ * <ul>
+ * <li>separator : Sets a custom separator like tab
+ * <li>quoteChar : Sets a custom quote character
+ * <li>escapeChar : Sets a custom escape character for the separator and quoteChar
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Usage:
+ * <pre>
+ * def csv = '''Fruit-Quantity
+ * Apple-2
+ * Pear-5'''
+ *
+ * def data = new CsvParser().parse(csv, separator: '-')
+ *
+ * // Print all fruits that have a quantity higher than 3
+ * data.findAll{ (it.Quantity as int) > 3 }.each{ println it }
+ * </pre>
+ * </p>
  *
  * @author Leonard Axelsson
  * @since 0.1
@@ -55,7 +80,9 @@ class CsvParser {
     /**
      * Parses the supplied csv  and returns a CsvIterator that can be
      * use to access the data. The first line of the csv will be used
-     * as column-headers.
+     * as column-headers. Named paramenters can be used to configure the
+     * parsing, see the class documentation for more more information on
+     * usage.
      * <p>
      * Arguments for configuration:
      * <li>separator : Sets a custom separator like tab

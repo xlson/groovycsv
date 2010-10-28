@@ -14,7 +14,7 @@ dependencies {
     testCompile "org.objenesis:objenesis:1.2"
 }
 
-version = '0.2-SNAPSHOT'
+version = '0.2'
 group = 'com.xlson.groovycsv'
 
 sourceSets {
@@ -52,6 +52,9 @@ uploadArchives {
         repositories.mavenDeployer {
             configuration = configurations.archives
             snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: repoUserName, password: repoPassword)
+            }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: repoUserName, password: repoPassword)
             }
             
