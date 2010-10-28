@@ -44,8 +44,6 @@ class CsvIteratorSpec extends Specification {
         when:
         iter.next()
         iter.hasNext()
-        //println iter.hasNext()
-        //println iter.isClosed()
 
         then:
         iter.isClosed()
@@ -87,6 +85,17 @@ class CsvIteratorSpec extends Specification {
         then:
         thrown(IllegalStateException)
 
+    }
+
+    def "CsvIterator.hasNext() returns false when the underlying reader instance is closed."() {
+        setup: 'Create an instance of CsvIterator consisting of 2 rows.'
+        def csvIterator = new CsvIterator(*csvData)
+
+        when: 'Iterates over the iterator until hasNext() is false'
+        csvIterator.each {}
+
+        then: 'hasNext() should return false.'
+        !csvIterator.hasNext()
     }
 
 }

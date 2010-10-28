@@ -64,9 +64,10 @@ class CsvIterator implements Iterator {
      * @return true if there is more data in the iterator
      */
     boolean hasNext() {
-        throwsExceptionIfClosed()
-
-        if(nextValueIsRead()) {
+        if(isClosed()) {
+            return false
+        }
+        else if(nextValueIsRead()) {
             return true
         } else {
             readValue = csvReader.readNext()
