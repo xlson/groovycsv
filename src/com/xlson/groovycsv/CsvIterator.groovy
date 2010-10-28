@@ -60,7 +60,6 @@ class CsvIterator implements Iterator {
      * Checks if there is more data available. Will close the underlying dataset
      * if there isn't any more data.
      *
-     * @throws IllegalStateException if the underlying dataset is already closed.
      * @return true if there is more data in the iterator
      */
     boolean hasNext() {
