@@ -1,3 +1,7 @@
+import org.gradle.api.internal.artifacts.publish.*
+
+// TODO: add clean task at beginning if uploadARchives is called
+
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
@@ -43,32 +47,70 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives groovydocJar
     archives sourcesJar
+
 }
+
+def signFile(File toSign) {
+    def p = ['gpg', '--yes', '--armor', '--passphrase-file', '/Users/leo/.priv.key', '--detach-sig', toSign.absolutePath].execute()
+    p.consumeProcessOutput System.out, System.err
+    p.waitForOrKill 3000
+}
+
+
+task generateGPGSignaturesForArtifacts(dependsOn: [groovydocJar, sourcesJar]) << {
+    new File('build/libs/').eachFileMatch(~/.+\.jar$/) {
+        signFile(it)
+    }
+}
+
+task testAddArtifacts(dependsOn: [generateGPGSignaturesForArtifacts]) << {
+    libsDir.eachFileMatch(~/.*\.asc$/) { ascFile ->
+        def findClassifierPattern = /$project.name-$version(?:-(.+))?\.jar\.asc/
+        
+        assert ascFile.name ==~ findClassifierPattern
+        (ascFile.name =~ findClassifierPattern).find { fullName, classifier ->
+            configurations.archives.addArtifact(new DefaultPublishArtifact("com.xlson.groovycsv", 'Artifact Signature', 'jar.asc', classifier, new Date(), ascFile))
+        }
+
+    }
+
+    configurations.archives.addArtifact(new DefaultPublishArtifact("com.xlson.groovycsv", 'Artifact Signature', 'pom.asc', null, new Date(), new File(buildDir, 'pomForSigning.xml.asc')))
+}
+
+def deployer = null
+def installer = install.repositories.mavenInstaller
 
 uploadArchives {
     // Checks if login information for the logon repo is set correctly.
     // Should be set in gradle.properties (check gradle.properties.example)
     if(project.hasProperty('repoUserName') && project.hasProperty('repoPassword')) {
-        repositories.mavenDeployer {
-            configuration = configurations.archives
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: repoUserName, password: repoPassword)
-            }
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: repoUserName, password: repoPassword)
-            }
-            
-            pom.project {
-                name 'GroovyCSV'
-                packaging 'jar' // not working
-                description 'Library for parsing csv in Groovy'
-                url 'http://github.com/xlson/groovycsv'
-                inceptionYear '2010'
-            
-                scm {
-                    url 'scm:git:git@github.com:xlson/groovycsv.git'
-                    connection 'http://github.com/xlson/groovycsv'
+       repositories {
+            deployer = mavenDeployer {
+                configureAuth = {
+                    authentication(userName: repoUserName, password: repoPassword)
                 }
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/", configureAuth) 
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/", configureAuth)
+            }
+        }
+    }
+}
+
+uploadArchives.dependsOn(testAddArtifacts)
+
+[installer, deployer]*.pom*.whenConfigured {pom ->
+    println "to late right?"
+    pom.project {
+        name 'GroovyCSV'
+        packaging 'jar' // not working
+        description 'Library for parsing csv in Groovy'
+        url 'http://github.com/xlson/groovycsv'
+        inceptionYear '2010'
+            
+        scm {
+            url 'scm:git:git@github.com:xlson/groovycsv.git'
+            connection 'http://github.com/xlson/groovycsv'
+        }
             
                 licenses {
                     license {
@@ -88,10 +130,26 @@ uploadArchives {
                     }
                 }
             }
-        }
-    }
 
+            pom.withXml { XmlProvider xmlProvider ->
+                def xml = xmlProvider.asString()
+                def pomXml = new XmlParser().parseText(xml.toString())
+
+                pomXml.version[0] + { packaging('jar') }
+
+                def newXml = new StringWriter()
+                def printer = new XmlNodePrinter(new PrintWriter(newXml))
+                printer.preserveWhitespace = true
+                printer.print(pomXml)
+                xml.setLength(0)
+                xml.append(newXml.toString())
+            }
+
+            pom.writeTo("$buildDir/pomForSigning.xml")
+            signFile(new File(buildDir, "pomForSigning.xml"))
 }
+
+
 
 task downloadDeps << {
     def libDir = file('lib')
