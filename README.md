@@ -6,11 +6,6 @@ easier to work with. The library was inspired by @[goeh's](http://twitter.com/go
 iterate over rows in the excel file using `eachLine` and access values
 using the column names.
 
-There is no official release at the moment but there is a SNAPSHOT
-release of 0.2 that is published to Sonatypes public oss repo. Check
-the example for instructions on how to use it. You could also build GroovyCSV yourself using the [Gradle](http://www.gradle.org/) build
-script.
-
 *Important*
 
 Package structure was changed from `com.xlson.csvparser` to
@@ -32,7 +27,7 @@ example we see the for each loop in use.
     @GrabResolver(name='Nexus OSS Repo',
         root='https://oss.sonatype.org/content/groups/public/',
         m2Compatible='true')
-    @Grab('com.xlson.groovycsv:groovycsv:0.2-SNAPSHOT')
+    @Grab('com.xlson.groovycsv:groovycsv:0.2')
     import com.xlson.groovycsv.CsvParser
     
     def csv = '''Name,Lastname
@@ -51,31 +46,25 @@ example we see the for each loop in use.
 
 ## Getting GroovyCSV
 
-GroovyCSV is available in Sonatypes public oss repo. Use the
-information specified below in your maven- or ivy-configuration to get
-it.
+GroovyCSV is currently available in Sonatypes public repository and
+soon in Maven Central. It is also available directly from GitHub
+(links below). You will have to add a custom maven
+repository to your build as long as it hasn't been added to maven
+central.
+
+### Maven & Ivy configuration
 
 * *Repo:* [https://oss.sonatype.org/content/groups/public/](https://oss.sonatype.org/content/groups/public/)
 * *GroupId:* com.xlson.groovycsv
 * *ArtifactId:* groovycsv
-* *Version:* 0.2-SNAPSHOT
+* *Version:* 0.2
 
-## Building
+### Downloads
 
-GroovyCSV uses Gradle for building. Gradle handles the dependencies
-for you so all you need to do is install gradle and then build the 
-code. 
+*GroovyCSV 0.2*
 
-**Build instruction**
-
-1. Download and install [Gradle 0.9-rc-1](http://www.gradle.org/downloads.html)
-2. Fetch the latest code: `git clone git://github.com/xlson/groovycsv.git`
-3. (Optional) Run the tests using `gradle test`
-4. Go to the project directory and run: `gradle jar`
-
-You will find the built jar in `./build/libs`. If you need any
-dependencies you can download them using `gradle downloadDeps`, they
-end up in the `lib` folder.
+* [groovycsv-0.2.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2.jar)
+* [groovycsv-0.2-javadoc.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2-javadoc.jar)
 
 ## Dependencies
 
@@ -85,7 +74,19 @@ end up in the `lib` folder.
 Many thanks to Glen Smith and the other's in the OpenCSV team for
 doing all the heavy lifting.
 
-## Plans
+## Building
 
-* Validation
-* Conversion support for primitives
+GroovyCSV uses Gradle for building. Gradle handles the dependencies
+for you so all you need to do is install gradle and then build the 
+code. 
+
+**Build instruction**
+
+1. Download and install [Gradle 0.9-rc-2](http://www.gradle.org/downloads.html)
+2. Fetch the latest code: `git clone git://github.com/xlson/groovycsv.git`
+3. (Optional) Run the tests using `gradle test`
+4. Go to the project directory and run: `gradle jar`
+
+You will find the built jar in `./build/libs`. If you need any
+dependencies you can download them using `gradle downloadDeps`, they
+end up in the `lib` folder.
