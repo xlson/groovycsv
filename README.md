@@ -24,9 +24,6 @@ The parse method returns an iterator over the rows in the csv. This
 means we can use any of the default groovy ways to iterate, in this
 example we see the for each loop in use.
 
-    @GrabResolver(name='Nexus OSS Repo',
-        root='https://oss.sonatype.org/content/groups/public/',
-        m2Compatible='true')
     @Grab('com.xlson.groovycsv:groovycsv:0.2')
     import com.xlson.groovycsv.CsvParser
     
@@ -46,15 +43,11 @@ example we see the for each loop in use.
 
 ## Getting GroovyCSV
 
-GroovyCSV is currently available in Sonatypes public repository and
-soon in Maven Central. It is also available directly from GitHub
-(links below). You will have to add a custom maven
-repository to your build as long as it hasn't been added to maven
-central.
+GroovyCSV is available in Maven Central. It is also available directly from GitHub
+(links below). 
 
 ### Maven & Ivy configuration
 
-* *Repo:* [https://oss.sonatype.org/content/groups/public/](https://oss.sonatype.org/content/groups/public/)
 * *GroupId:* com.xlson.groovycsv
 * *ArtifactId:* groovycsv
 * *Version:* 0.2
@@ -65,6 +58,7 @@ central.
 
 * [groovycsv-0.2.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2.jar)
 * [groovycsv-0.2-javadoc.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/0.2/javadoc/)
 
 ## Dependencies
 
