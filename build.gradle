@@ -1,9 +1,16 @@
-import org.gradle.api.internal.artifacts.publish.*
-
-// TODO: add clean task at beginning if uploadARchives is called
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    
+    dependencies {
+        classpath 'de.huxhorn.gradle:de.huxhorn.gradle.pgp-plugin:0.0.3'
+    }
+}
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: de.huxhorn.gradle.pgp.PgpPlugin
 
 repositories {
     mavenCentral()
@@ -50,33 +57,6 @@ artifacts {
 
 }
 
-def signFile(File toSign) {
-    def p = ['gpg', '--yes', '--armor', '--passphrase-file', '/Users/leo/.priv.key', '--detach-sig', toSign.absolutePath].execute()
-    p.consumeProcessOutput System.out, System.err
-    p.waitForOrKill 3000
-}
-
-
-task generateGPGSignaturesForArtifacts(dependsOn: [groovydocJar, sourcesJar]) << {
-    new File('build/libs/').eachFileMatch(~/.+\.jar$/) {
-        signFile(it)
-    }
-}
-
-task testAddArtifacts(dependsOn: [generateGPGSignaturesForArtifacts]) << {
-    libsDir.eachFileMatch(~/.*\.asc$/) { ascFile ->
-        def findClassifierPattern = /$project.name-$version(?:-(.+))?\.jar\.asc/
-        
-        assert ascFile.name ==~ findClassifierPattern
-        (ascFile.name =~ findClassifierPattern).find { fullName, classifier ->
-            configurations.archives.addArtifact(new DefaultPublishArtifact("com.xlson.groovycsv", 'Artifact Signature', 'jar.asc', classifier, new Date(), ascFile))
-        }
-
-    }
-
-    configurations.archives.addArtifact(new DefaultPublishArtifact("com.xlson.groovycsv", 'Artifact Signature', 'pom.asc', null, new Date(), new File(buildDir, 'pomForSigning.xml.asc')))
-}
-
 def deployer = null
 def installer = install.repositories.mavenInstaller
 
@@ -96,10 +76,7 @@ uploadArchives {
     }
 }
 
-uploadArchives.dependsOn(testAddArtifacts)
-
 [installer, deployer]*.pom*.whenConfigured {pom ->
-    println "to late right?"
     pom.project {
         name 'GroovyCSV'
         packaging 'jar' // not working
@@ -144,9 +121,6 @@ uploadArchives.dependsOn(testAddArtifacts)
                 xml.setLength(0)
                 xml.append(newXml.toString())
             }
-
-            pom.writeTo("$buildDir/pomForSigning.xml")
-            signFile(new File(buildDir, "pomForSigning.xml"))
 }
 
 
