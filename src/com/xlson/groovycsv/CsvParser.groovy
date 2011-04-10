@@ -65,6 +65,12 @@ import au.com.bytecode.opencsv.CSVReader
  */
 class CsvParser {
 
+    def autoDetectedSeparators = [",", ";", ":", "|"]
+    
+    def autoDetectedQuoteChars = ['"', "'"]
+    
+    def linesForAutodetection = 5
+    
     /**
      * Parses the csv supplied using the reader. See parse(Reader reader) for
      * more information about usage.
@@ -101,6 +107,10 @@ class CsvParser {
     }
 
     private CSVReader createCSVReader(Map args = [:], Reader reader) {
+        def text = reader.text
+        reader = new StringReader(text)
+        args = doAutoDetection(args, text)
+        
         char separator = args.separator ?: ','
         char quoteChar = args.quoteChar ?: '"'
         char escapeChar = args.escapeChar
@@ -112,4 +122,86 @@ class CsvParser {
         }
     }
 
+    /**
+     * Performs automatic detection of separator and quote character.
+     * 
+     * It will search arguments for values 'auto' in separator and quoteChar. It
+     * will return a new version of the arguments modified with the values that
+     * were found.
+     * 
+     * If nothing is detected, the values are removed from the args.
+     * 
+     * Note that 
+     * 
+     * @param args the configuration arguments.
+     * @param text the CSV as a String.
+     * @return modified args with detected. 
+     */
+    private Map doAutoDetection(Map args, String text) {
+        if (args.separator == 'auto') {
+            def detectedSeparator = autoDetectSeparator(text)
+            if (detectedSeparator) args.separator = detectedSeparator
+            else args.remove("separator")
+        }
+        if(args.quoteChar == 'auto') {
+            def detectedQuoteChar = autoDetectQuoteChar(text)
+            if (detectedQuoteChar) args.quoteChar = detectedQuoteChar
+            else args.remove("quoteChar")
+        }
+        return args
+    }
+    
+    /**
+     * Run autodetection for separator.
+     * @param text  The full CSV as a String.
+     * @return the detected character.
+     */
+    private autoDetectSeparator(String text) {
+        def firstLines = getFirstLines(text)
+        return mostFrequentChar(firstLines, autoDetectedSeparators)
+    }
+
+    /**
+    * Run autodetection for quote character.
+    * @param text The full CSV as a String.
+    * @return the detected character.
+    */
+    private autoDetectQuoteChar(String text) {
+        def firstLines = getFirstLines(text)
+        return mostFrequentChar(firstLines, autoDetectedQuoteChars)
+    }
+    
+    /**
+     * Find the most frequent character in a string among a list of characters.
+     * 
+     * @param sequence      The string to search.
+     * @param characters    The list of characters to search.
+     * @return  The most frequent character.
+     */
+    private mostFrequentChar(String sequence, List<String> characters) {
+        def maxOccurences = 0
+        char mostFrequentChar
+        characters.each {
+            def charOccurences = sequence.count(it)
+            if ( charOccurences > maxOccurences) {
+                mostFrequentChar = it
+                maxOccurences = charOccurences
+            }
+        }
+        return mostFrequentChar
+    }
+    
+    /**
+     * Extracts the first lines of a given text. The number of lines is
+     * determined by the linesforAutodection attribute.
+     * 
+     */
+    private String getFirstLines(String text) {
+        def lines = text.readLines()
+        def firstLines = ""
+        for (int i = 0; i < linesForAutodetection - 1; i++) {
+            firstLines += lines[i]
+        }
+        return firstLines
+    }
 }
