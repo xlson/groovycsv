@@ -64,12 +64,12 @@ import au.com.bytecode.opencsv.CSVReader
  * @since 0.1
  */
 class CsvParser {
-
-    def autoDetectedSeparators = [",", ";", ":", "|"]
     
-    def autoDetectedQuoteChars = ['"', "'"]
-    
-    def linesForAutodetection = 5
+    /**
+     * Number of characters used to provide to autodetection (in case auto
+     * detection is used.
+     */
+    def autoDetectCharNumber = 1000
     
     /**
      * Parses the csv supplied using the reader. See parse(Reader reader) for
@@ -107,18 +107,26 @@ class CsvParser {
     }
 
     private CSVReader createCSVReader(Map args = [:], Reader reader) {
-        def text = reader.text
-        reader = new StringReader(text)
-        args = doAutoDetection(args, text)
-        
-        char separator = args.separator ?: ','
-        char quoteChar = args.quoteChar ?: '"'
+        char separator
+        char quoteChar
         char escapeChar = args.escapeChar
+        
+        if (args.autoDetect == true) {
+            reader = new PushbackReader(reader, autoDetectCharNumber)
+            doAutoDetection(args, reader)
+            separator = args.separator
+            quoteChar = args.quoteChar
+        } else {
+            separator = args.separator ?: ','
+            quoteChar = args.quoteChar ?: '"'
+        }
 
         if(escapeChar) {
-            return new CSVReader(reader, separator, quoteChar, escapeChar)             
-        } else {
+            return new CSVReader(reader, separator, quoteChar, escapeChar)    
+        } else if(quoteChar) {
             return new CSVReader(reader, separator, quoteChar)
+        } else {
+            return new CSVReader(reader, separator)
         }
     }
 
@@ -137,58 +145,30 @@ class CsvParser {
      * @param text the CSV as a String.
      * @return modified args with detected. 
      */
-    private Map doAutoDetection(Map args, String text) {
-        if (args.separator == 'auto') {
-            def detectedSeparator = autoDetectSeparator(text)
+    private Map doAutoDetection(Map args, PushbackReader reader) {
+        def buf = new char[autoDetectCharNumber]
+        def charsRead = reader.read(buf)
+        def linesToInspect = new String(buf)
+        reader.unread(buf, 0, charsRead)
+        
+        
+        def adh = new AutoDetectHandler(linesToInspect: linesToInspect)
+        if (args.autoDetectQuoteChars) 
+            adh.autoDetectQuoteChars = args.autoDetectQuoteChars
+        if (args.autoDetectSeparators)
+            adh.autoDetectSeparators = args.autoDetectSeparators
+            
+        if (!args.separator) {
+            def detectedSeparator = adh.autoDetectSeparator()
             if (detectedSeparator) args.separator = detectedSeparator
             else args.remove("separator")
         }
-        if(args.quoteChar == 'auto') {
-            def detectedQuoteChar = autoDetectQuoteChar(text)
+        if(!args.quoteChar) {
+            def detectedQuoteChar = adh.autoDetectQuoteChar()
             if (detectedQuoteChar) args.quoteChar = detectedQuoteChar
             else args.remove("quoteChar")
         }
         return args
-    }
-    
-    /**
-     * Run autodetection for separator.
-     * @param text  The full CSV as a String.
-     * @return the detected character.
-     */
-    private autoDetectSeparator(String text) {
-        def firstLines = getFirstLines(text)
-        return mostFrequentChar(firstLines, autoDetectedSeparators)
-    }
-
-    /**
-    * Run autodetection for quote character.
-    * @param text The full CSV as a String.
-    * @return the detected character.
-    */
-    private autoDetectQuoteChar(String text) {
-        def firstLines = getFirstLines(text)
-        return mostFrequentChar(firstLines, autoDetectedQuoteChars)
-    }
-    
-    /**
-     * Find the most frequent character in a string among a list of characters.
-     * 
-     * @param sequence      The string to search.
-     * @param characters    The list of characters to search.
-     * @return  The most frequent character.
-     */
-    private mostFrequentChar(String sequence, List<String> characters) {
-        def maxOccurences = 0
-        char mostFrequentChar
-        characters.each {
-            def charOccurences = sequence.count(it)
-            if ( charOccurences > maxOccurences) {
-                mostFrequentChar = it
-                maxOccurences = charOccurences
-            }
-        }
-        return mostFrequentChar
     }
     
     /**

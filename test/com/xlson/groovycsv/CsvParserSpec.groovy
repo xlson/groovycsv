@@ -131,11 +131,11 @@ Kiwi:200'''
         then:
         csv*.Number == ['5', '60']
     }
-    
+
     def "CsvParser should auto detect separator and quote character"() {
         when: "a CSV file is parsed with auto detection"
-        def csv = new CsvParser().parse(csvData, separator: 'auto', quoteChar: 'auto')
-        
+        def csv = new CsvParser().parse(autoDetect: true, csvData)
+
         then: "it should return the correct columns"
         csv*."$property" == values
         
@@ -147,6 +147,14 @@ Kiwi:200'''
         csvUsingDoubleQuoteAsQuoteChar  | "Typo"   | ["123"]
         testDataWithColumnNamesAnd2Rows | "Word"   | ["paris", "drink"]
         testDataWithColumnNamesAnd3Rows | "Email"  | ["mark@hamilton.com", "bildoktorn@tv4.se", "peps.persson@hotmail.com"]
+    }
+    
+    def "should allow to override auto detection"() {
+        when: "autoDetect is active and a separator is provided"
+        def csv = new CsvParser().parse(autoDetect: true, separator: ',', csvWithColonAsSeparator)
+        
+        then: "the separator provided is used"
+        csv*."Fruit:Count" == ["Apple:5", "Pear:10", "Kiwi:200"]
     }
     
 }
