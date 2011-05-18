@@ -64,7 +64,13 @@ import au.com.bytecode.opencsv.CSVReader
  * @since 0.1
  */
 class CsvParser {
-
+    
+    /**
+     * Number of characters used to provide to autodetection (in case auto
+     * detection is used.
+     */
+    def autoDetectCharNumber = 1000
+    
     /**
      * Parses the csv supplied using the reader. See parse(Reader reader) for
      * more information about usage.
@@ -101,15 +107,81 @@ class CsvParser {
     }
 
     private CSVReader createCSVReader(Map args = [:], Reader reader) {
-        char separator = args.separator ?: ','
-        char quoteChar = args.quoteChar ?: '"'
+        char separator
+        char quoteChar
         char escapeChar = args.escapeChar
+        
+        if (args.autoDetect == true) {
+            reader = new PushbackReader(reader, autoDetectCharNumber)
+            doAutoDetection(args, reader)
+            separator = args.separator
+            quoteChar = args.quoteChar
+        } else {
+            separator = args.separator ?: ','
+            quoteChar = args.quoteChar ?: '"'
+        }
 
         if(escapeChar) {
-            return new CSVReader(reader, separator, quoteChar, escapeChar)             
-        } else {
+            return new CSVReader(reader, separator, quoteChar, escapeChar)    
+        } else if(quoteChar) {
             return new CSVReader(reader, separator, quoteChar)
+        } else {
+            return new CSVReader(reader, separator)
         }
     }
 
+    /**
+     * Performs automatic detection of separator and quote character.
+     * 
+     * It will search arguments for values 'auto' in separator and quoteChar. It
+     * will return a new version of the arguments modified with the values that
+     * were found.
+     * 
+     * If nothing is detected, the values are removed from the args.
+     * 
+     * Note that 
+     * 
+     * @param args the configuration arguments.
+     * @param text the CSV as a String.
+     * @return modified args with detected. 
+     */
+    private Map doAutoDetection(Map args, PushbackReader reader) {
+        def buf = new char[autoDetectCharNumber]
+        def charsRead = reader.read(buf)
+        def linesToInspect = new String(buf)
+        reader.unread(buf, 0, charsRead)
+        
+        
+        def adh = new AutoDetectHandler(linesToInspect: linesToInspect)
+        if (args.autoDetectQuoteChars) 
+            adh.autoDetectQuoteChars = args.autoDetectQuoteChars
+        if (args.autoDetectSeparators)
+            adh.autoDetectSeparators = args.autoDetectSeparators
+            
+        if (!args.separator) {
+            def detectedSeparator = adh.autoDetectSeparator()
+            if (detectedSeparator) args.separator = detectedSeparator
+            else args.remove("separator")
+        }
+        if(!args.quoteChar) {
+            def detectedQuoteChar = adh.autoDetectQuoteChar()
+            if (detectedQuoteChar) args.quoteChar = detectedQuoteChar
+            else args.remove("quoteChar")
+        }
+        return args
+    }
+    
+    /**
+     * Extracts the first lines of a given text. The number of lines is
+     * determined by the linesforAutodection attribute.
+     * 
+     */
+    private String getFirstLines(String text) {
+        def lines = text.readLines()
+        def firstLines = ""
+        for (int i = 0; i < linesForAutodetection - 1; i++) {
+            firstLines += lines[i]
+        }
+        return firstLines
+    }
 }
