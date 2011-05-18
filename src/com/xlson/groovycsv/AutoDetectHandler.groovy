@@ -1,7 +1,5 @@
 package com.xlson.groovycsv
 
-import java.util.List;
-
 class AutoDetectHandler {
 
     def autoDetectSeparators = [",", ";", ":", "|"]
@@ -41,6 +39,7 @@ class AutoDetectHandler {
    
    /**
     * Find the most frequent character in a string among a list of characters.
+    * Falls back on the first character in the list if no character is found.
     *
     * @param sequence      The string to search.
     * @param characters    The list of characters to search.

@@ -153,11 +153,12 @@ class CsvParser {
         
         
         def autoDetector = new AutoDetectHandler(linesToInspect: linesToInspect)
-        if (args.autoDetectQuoteChars) 
+        if (args.autoDetectQuoteChars) {
             autoDetector.autoDetectQuoteChars = args.autoDetectQuoteChars
-        if (args.autoDetectSeparators)
+        }
+        if (args.autoDetectSeparators) {
             autoDetector.autoDetectSeparators = args.autoDetectSeparators
-            
+        }
         if (!args.separator) {
             def detectedSeparator = autoDetector.autoDetectSeparator()
             if (detectedSeparator) args.separator = detectedSeparator
@@ -171,17 +172,4 @@ class CsvParser {
         return args
     }
     
-    /**
-     * Extracts the first lines of a given text. The number of lines is
-     * determined by the linesforAutodection attribute.
-     * 
-     */
-    private String getFirstLines(String text) {
-        def lines = text.readLines()
-        def firstLines = ""
-        for (int i = 0; i < linesForAutodetection - 1; i++) {
-            firstLines += lines[i]
-        }
-        return firstLines
-    }
 }
