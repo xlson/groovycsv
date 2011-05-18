@@ -14,8 +14,8 @@ class AutoDetectHandlerSpec extends Specification {
         
         where:
         csvData                         | quoteChar
-        testDataWithColumnNamesAnd3Rows | null
-        testDataWithColumnNamesAnd2Rows | null
+        testDataWithColumnNamesAnd3Rows | '"'
+        testDataWithColumnNamesAnd2Rows | '"'
         csvUsingDoubleQuoteAsQuoteChar  | '"'
         csvUsingPercentageAsQuoteChar   | "%"
         

@@ -152,19 +152,19 @@ class CsvParser {
         reader.unread(buf, 0, charsRead)
         
         
-        def adh = new AutoDetectHandler(linesToInspect: linesToInspect)
+        def autoDetector = new AutoDetectHandler(linesToInspect: linesToInspect)
         if (args.autoDetectQuoteChars) 
-            adh.autoDetectQuoteChars = args.autoDetectQuoteChars
+            autoDetector.autoDetectQuoteChars = args.autoDetectQuoteChars
         if (args.autoDetectSeparators)
-            adh.autoDetectSeparators = args.autoDetectSeparators
+            autoDetector.autoDetectSeparators = args.autoDetectSeparators
             
         if (!args.separator) {
-            def detectedSeparator = adh.autoDetectSeparator()
+            def detectedSeparator = autoDetector.autoDetectSeparator()
             if (detectedSeparator) args.separator = detectedSeparator
             else args.remove("separator")
         }
         if(!args.quoteChar) {
-            def detectedQuoteChar = adh.autoDetectQuoteChar()
+            def detectedQuoteChar = autoDetector.autoDetectQuoteChar()
             if (detectedQuoteChar) args.quoteChar = detectedQuoteChar
             else args.remove("quoteChar")
         }

@@ -46,17 +46,8 @@ class AutoDetectHandler {
     * @param characters    The list of characters to search.
     * @return  The most frequent character.
     */
-   private mostFrequentChar(String sequence, List<String> characters) {
-       def maxOccurences = 0
-       char mostFrequentChar
-       characters.each {
-           def charOccurences = sequence.count(it)
-           if ( charOccurences > maxOccurences) {
-               mostFrequentChar = it
-               maxOccurences = charOccurences
-           }
-       }
-       return mostFrequentChar
+   private mostFrequentChar(String sequence, List characters) {
+       characters.max{ sequence.count(it) }
    }
 
     
