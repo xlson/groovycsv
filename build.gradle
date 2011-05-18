@@ -25,7 +25,7 @@ dependencies {
     testCompile "org.objenesis:objenesis:1.2"
 }
 
-version = '0.2'
+version = '0.3-SNAPSHOT'
 group = 'com.xlson.groovycsv'
 
 sourceSets {
