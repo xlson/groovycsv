@@ -34,31 +34,6 @@ import au.com.bytecode.opencsv.CSVReader
  *   println "$line.Name $line.Lastname"
  * }</pre>
  *
- * <p><b>Parser configuration</b></p>
- *
- * <p>
- * There parser is configurable using named arguments. These arguments are available.
- *
- * <ul>
- * <li>separator : Sets a custom separator like tab
- * <li>quoteChar : Sets a custom quote character
- * <li>escapeChar : Sets a custom escape character for the separator and quoteChar
- * </ul>
- * </p>
- *
- * <p>
- * Usage:
- * <pre>
- * def csv = '''Fruit-Quantity
- * Apple-2
- * Pear-5'''
- *
- * def data = new CsvParser().parse(csv, separator: '-')
- *
- * // Print all fruits that have a quantity higher than 3
- * data.findAll{ (it.Quantity as int) > 3 }.each{ println it }
- * </pre>
- * </p>
  *
  * @author Leonard Axelsson
  * @since 0.1
@@ -69,7 +44,7 @@ class CsvParser {
      * Number of characters used to provide to autodetection (in case auto
      * detection is used.
      */
-    def autoDetectCharNumber = 1000
+    Integer autoDetectCharNumber = 1000
     
     /**
      * Parses the csv supplied using the reader. See parse(Reader reader) for
@@ -79,7 +54,7 @@ class CsvParser {
      * @param csv the csv to parse
      * @return an instance of <code>com.xlson.groovycsv.CsvIterator</code>
      */
-    def parse(Map args = [:], String csv) {
+    Iterator parse(Map args = [:], String csv) {
         parse(args, new StringReader(csv))
     }
 
@@ -88,18 +63,33 @@ class CsvParser {
      * use to access the data. The first line of the csv will be used
      * as column-headers. Named paramenters can be used to configure the
      * parsing, see the class documentation for more more information on
-     * usage.
+     * usage. There's also support for autodetecting the quote and separator
+     * characters.
      * <p>
      * Arguments for configuration:
-     * <li>separator : Sets a custom separator like tab
-     * <li>quoteChar : Sets a custom quote character
-     * <li>escapeChar : Sets a custom escape character for the separator and quoteChar
+     * <li>separator: configures the separator character to use (default: ,)
+     * <li>quoteChar: configures the quote character to use (default: ")
+     * <li>escapeChar: configures the escape character for the separator and quoteChar (default:\
+     * <li>autoDetect: sets up autodetect that will honor other configurations you've done (default: false)
      *
+     * <p>
+     * Usage:
+     * <pre>
+     * def csv = '''Fruit-Quantity
+     * Apple-2
+     * Pear-5'''
+     *
+     * def data = new CsvParser().parse(csv, separator: '-')
+     *
+     * // Print all fruits that have a quantity higher than 3
+     * data.findAll{ (it.Quantity as int) > 3 }.each{ println it }
+     * </pre>
+     * </p>
      * @param reader the csv to parse
      * @param args the configuration arguments
      * @return an instance of <code>com.xlson.groovycsv.CsvIterator</code>
      */
-    def parse(Map args = [:], Reader reader) {
+    Iterator parse(Map args = [:], Reader reader) {
         def csvReader = createCSVReader(args, reader)
         def columnNames = csvReader.readNext()
 
