@@ -2,9 +2,9 @@ package com.xlson.groovycsv
 
 class AutoDetectHandler {
 
-    def autoDetectSeparators = [",", ";", ":", "|"]
+    List autoDetectSeparators = [",", ";", ":", "|"]
     
-    def autoDetectQuoteChars = ['"', "'", "%"]
+    List autoDetectQuoteChars = ['"', "'", "%"]
         
     String linesToInspect
     
@@ -17,26 +17,6 @@ class AutoDetectHandler {
         return mostFrequentChar(linesToInspect, autoDetectSeparators)
     }
     
-    /**
-    * Run autodetection for separator.
-    * @param text  The full CSV as a String.
-    * @return the detected character.
-    */
-   private autoDetectSeparator(String text) {
-       def firstLines = getFirstLines(text)
-       return mostFrequentChar(firstLines, autoDetectedSeparators)
-   }
-
-   /**
-   * Run autodetection for quote character.
-   * @param text The full CSV as a String.
-   * @return the detected character.
-   */
-   private autoDetectQuoteChar(String text) {
-       def firstLines = getFirstLines(text)
-       return mostFrequentChar(firstLines, autoDetectedQuoteChars)
-   }
-   
    /**
     * Find the most frequent character in a string among a list of characters.
     * Falls back on the first character in the list if no character is found.
