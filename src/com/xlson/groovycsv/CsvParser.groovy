@@ -123,10 +123,8 @@ class CsvParser {
 
         if(escapeChar) {
             return new CSVReader(reader, separator, quoteChar, escapeChar)    
-        } else if(quoteChar) {
-            return new CSVReader(reader, separator, quoteChar)
         } else {
-            return new CSVReader(reader, separator)
+            return new CSVReader(reader, separator, quoteChar)
         }
     }
 

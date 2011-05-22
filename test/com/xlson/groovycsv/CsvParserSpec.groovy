@@ -24,6 +24,12 @@ Pear:10
 Kiwi:200'''        
     }
 
+  def getTestDataWithQuotedComma() { 
+    '''a,b
+-,abc-,4
+abc,-4-'''
+  }
+
     def "Iterating over the parsed csv values are available by column name."() {
         setup:
         def data = new CsvParser().parse(getTestDataWithColumnNamesAnd3Rows())
@@ -156,5 +162,13 @@ Kiwi:200'''
         then: "the separator provided is used"
         csv*."Fruit:Count" == ["Apple:5", "Pear:10", "Kiwi:200"]
     }
+
+  def "The separator should be allowed in the csv data if its quoted"() {
+    when:
+    def csv = new CsvParser().parse(quoteChar:'-', testDataWithQuotedComma)
+
+    then:
+    csv*.a == [',abc','abc']
+  }
     
 }
