@@ -17,6 +17,7 @@ Package structure was changed from `com.xlson.csvparser` to
 * Iteration using the ordinary collection methods (`findAll`, `collect`
   and so on)
 * Full support for OpenCSV's configurability
+* Support for guessing separator and/or quote character
 
 ## Example
 
