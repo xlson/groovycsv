@@ -1,5 +1,4 @@
-@GrabResolver(name='Nexus OSS Repo', root='https://oss.sonatype.org/content/groups/public/', m2Compatible='true')
-@Grab('com.xlson.groovycsv:groovycsv:0.2-SNAPSHOT')
+@Grab('com.xlson.groovycsv:groovycsv:0.2')
 import com.xlson.groovycsv.CsvParser
 
 def csv = '''Name,Lastname
