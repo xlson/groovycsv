@@ -53,6 +53,16 @@ class PropertyMapper {
         }
     }
 
+    /**
+     * Allows values to be obtained using their position
+     *
+     * @param index
+     * @return the value at that position
+     */
+    def getAt(Integer index) {
+        values[index]
+    }
+
     String toString() {
         columns.collect { key, index -> "$key: ${values[index]}" }.join(', ')
     }

@@ -170,5 +170,30 @@ abc,-4-'''
     then:
     csv*.a == [',abc','abc']
   }
+
+  def "Values in the csv can be obtained by using the index of the column."() {
+      when:
+      def csv = new CsvParser().parse(testDataWithColumnNamesAnd2Rows)
+      def line = csv.next()
+
+      then:
+      line[0] == 'a'
+      line[1] == 'paris'
+      line[2] == '5'
+  }
+
+  def csvWithoutHeaders = 'Joe,Doe,19'
+
+  def "Parsing csv without headers using the position of the values."() {
+      when:
+      def csv = new CsvParser().parse(readAllLinesAsContent: true,  csvWithoutHeaders)
+      def line = csv.next()
+
+      then:
+      line[0] == 'Joe'
+      line[1] == 'Doe'
+      line[2] == '19'
+
+  }
     
 }

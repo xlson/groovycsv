@@ -72,7 +72,7 @@ class CsvParser {
      * <li>escapeChar: configures the escape character for the separator and quoteChar (default:\
      * <li>autoDetect: sets up autodetect that will honor other configurations you've done (default: false)
      * <li>columnNames: set custom column names instead of using the first line
-     * <li>readAllLinesAsContent: reads all lines of the csv as content, must be used together with columnNames
+     * <li>readAllLinesAsContent: reads all lines of the csv as content
      *
      * <p>
      * Usage:
@@ -90,19 +90,11 @@ class CsvParser {
      * @param reader the csv to parse
      * @param args the configuration arguments
      * @return an instance of <code>com.xlson.groovycsv.CsvIterator</code>
-     * @throws CsvParseException when called with an illegal combination of arguments
      */
     Iterator parse(Map args = [:], Reader reader) {
-        validate(args)
         def csvReader = createCSVReader(args, reader)
         def columnNames = parseColumnNames(args, csvReader)
         new CsvIterator(columnNames, csvReader)
-    }
-
-    def validate(Map args) {
-        if(args.readAllLinesAsContent && !args.columnNames) {
-            throw new CsvParseException("Can not specify readAllLinesAsContent without specifying columnNames as well.")
-        }
     }
 
     private def parseColumnNames(Map args, CSVReader csvReader) {

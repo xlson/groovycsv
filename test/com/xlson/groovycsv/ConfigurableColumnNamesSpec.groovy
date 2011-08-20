@@ -72,15 +72,4 @@ Jane,Doe,24"""
         columnNames == customColumnNames
     }
 
-    def "Throws CsvParseException when readAllLinesAsContent is specified without specifying columnNames."() {
-        setup:
-        def reader = Mock(Reader)
-
-        when:
-        new CsvParser().parse(readAllLinesAsContent: true, reader)
-        then:
-        thrown(CsvParseException)
-
-    }
-
 }
