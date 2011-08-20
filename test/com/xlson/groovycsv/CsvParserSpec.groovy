@@ -186,7 +186,7 @@ abc,-4-'''
 
   def "Parsing csv without headers using the position of the values."() {
       when:
-      def csv = new CsvParser().parse(readAllLinesAsContent: true,  csvWithoutHeaders)
+      def csv = new CsvParser().parse(readFirstLine: true,  csvWithoutHeaders)
       def line = csv.next()
 
       then:

@@ -94,7 +94,7 @@ class CsvParser {
      * <li>escapeChar: configures the escape character for the separator and quoteChar (default:\
      * <li>autoDetect: sets up autodetect that will honor other configurations you've done (default: false)
      * <li>columnNames: set custom column names instead of using the first line
-     * <li>readAllLinesAsContent: reads all lines of the csv as content
+     * <li>readFirstLine: reads the first line as csv instead of using it as headers
      *
      * <p>
      * Usage:
@@ -122,7 +122,7 @@ class CsvParser {
     private def parseColumnNames(Map args, CSVReader csvReader) {
         def columnNames
 
-        if (!args.readAllLinesAsContent) {
+        if (!args.readFirstLine) {
             columnNames = csvReader.readNext()
         }
 

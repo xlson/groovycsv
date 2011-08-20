@@ -24,7 +24,7 @@ Jane,Doe,24"""
 
     def "Read all lines of csv content using custom column as column names"() {
         setup:
-        def persons = new CsvParser().parse(csvWithoutCoulmnNames, readAllLinesAsContent: true, columnNames: ['name', 'lastname', 'age'])
+        def persons = new CsvParser().parse(csvWithoutCoulmnNames, readFirstLine: true, columnNames: ['name', 'lastname', 'age'])
 
         when:
         def names = persons*.name
@@ -58,14 +58,14 @@ Jane,Doe,24"""
         columnNames == customColumnNames
     }
 
-    def "Does not read the first line as header when readAllLinesAsContent is specified."() {
+    def "Does not read the first line as header when readFirstLine is specified."() {
         setup:
         def reader = Mock(CSVReader)
 
         when:
         def customColumnNames = ['1', '2', '3']
         def columnNames = new CsvParser().parseColumnNames([columnNames:customColumnNames,
-                                                            readAllLinesAsContent: true],
+                                                            readFirstLine: true],
                                                            reader)
         then:
         0 * reader.readNext()
