@@ -3,7 +3,7 @@ package com.xlson.groovycsv
 import spock.lang.Specification
 import au.com.bytecode.opencsv.CSVReader
 
-class CsvIteratorSpec extends Specification {
+class  CsvIteratorSpec extends Specification {
 
     def getCsvData() {
         def csv = """a,b,c

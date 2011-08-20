@@ -93,6 +93,10 @@ class CsvParser {
         def csvReader = createCSVReader(args, reader)
         def columnNames = csvReader.readNext()
 
+        if(args.columnNames) {
+            columnNames = args.columnNames
+        }
+
         new CsvIterator(columnNames, csvReader)
     }
 
