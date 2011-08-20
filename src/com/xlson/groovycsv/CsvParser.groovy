@@ -90,19 +90,29 @@ class CsvParser {
      * @return an instance of <code>com.xlson.groovycsv.CsvIterator</code>
      */
     Iterator parse(Map args = [:], Reader reader) {
+        validate(args)
         def csvReader = createCSVReader(args, reader)
+        def columnNames = parseColumnNames(args, csvReader)
+        new CsvIterator(columnNames, csvReader)
+    }
 
+    def validate(Map args) {
+        if(args.readAllLinesAsContent && !args.columnNames) {
+            throw new CsvParseException("Can not specify readAllLinesAsContent without specifying columnNames as well.")
+        }
+    }
+
+    private def parseColumnNames(Map args, CSVReader csvReader) {
         def columnNames
 
         if (!args.readAllLinesAsContent) {
             columnNames = csvReader.readNext()
         }
 
-        if(args.columnNames) {
+        if (args.columnNames) {
             columnNames = args.columnNames
         }
-
-        new CsvIterator(columnNames, csvReader)
+        return columnNames
     }
 
     private CSVReader createCSVReader(Map args = [:], Reader reader) {
