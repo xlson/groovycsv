@@ -91,7 +91,12 @@ class CsvParser {
      */
     Iterator parse(Map args = [:], Reader reader) {
         def csvReader = createCSVReader(args, reader)
-        def columnNames = csvReader.readNext()
+
+        def columnNames
+
+        if (!args.readAllLinesAsContent) {
+            columnNames = csvReader.readNext()
+        }
 
         if(args.columnNames) {
             columnNames = args.columnNames
