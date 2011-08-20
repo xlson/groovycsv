@@ -45,7 +45,29 @@ class CsvParser {
      * detection is used.
      */
     Integer autoDetectCharNumber = 1000
-    
+
+    /**
+     * Parses a string as csv in the same way as CsvParser.parse(...).
+     *
+     * @param args
+     * @param csv
+     * @return
+     */
+    static Iterator parseCsv(Map args = [:], String csv) {
+        new CsvParser().parse(args, csv)
+    }
+
+    /**
+     * Parses a reader as csv in the same way as CsvParser.parse(...).
+     *
+     * @param args
+     * @param csv
+     * @return
+     */
+    static Iterator parseCsv(Map args = [:], Reader reader) {
+        new CsvParser().parse(args, reader)
+    }
+
     /**
      * Parses the csv supplied using the reader. See parse(Reader reader) for
      * more information about usage.

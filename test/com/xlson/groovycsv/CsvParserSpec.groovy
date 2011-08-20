@@ -195,5 +195,18 @@ abc,-4-'''
       line[2] == '19'
 
   }
+
+  def "CsvParser.parseCsv can be used statically."() {
+      when:
+      def csv = CsvParser.parseCsv(csvData)
+
+      then:
+      csv*.Letter == letterValues
+
+      where:
+      csvData                                           | letterValues
+      testDataWithColumnNamesAnd2Rows                   | ['a', 'h']
+      new StringReader(testDataWithColumnNamesAnd2Rows) | ['a', 'h']
+  }
     
 }
