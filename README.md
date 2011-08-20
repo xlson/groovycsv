@@ -13,11 +13,12 @@ Package structure was changed from `com.xlson.csvparser` to
 
 ## Features
 
-* Value-access by header name
+* Value-access by header name or position
 * Iteration using the ordinary collection methods (`findAll`, `collect`
   and so on)
 * Full support for OpenCSV's configurability
 * Support for guessing separator and/or quote character
+* Support for reading csv without headers
 
 ## Example
 
@@ -49,9 +50,16 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 ### Maven & Ivy configuration
 
+#### Latest stable
+
 * *GroupId:* com.xlson.groovycsv
 * *ArtifactId:* groovycsv
 * *Version:* 0.2
+
+#### Latest snapshot
+
+* *Version:* 0.3-SNAPSHOT
+* *Repository:* https://oss.sonatype.org/content/groups/public/
 
 ### Downloads
 
