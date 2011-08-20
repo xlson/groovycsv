@@ -11,6 +11,7 @@ buildscript {
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: de.huxhorn.gradle.pgp.PgpPlugin
+apply plugin: 'idea'
 
 repositories {
     mavenCentral()
