@@ -26,7 +26,7 @@ dependencies {
     testCompile "org.objenesis:objenesis:1.2"
 }
 
-version = '0.3-SNAPSHOT'
+version = '1.0-SNAPSHOT'
 group = 'com.xlson.groovycsv'
 
 sourceSets {
@@ -124,7 +124,9 @@ uploadArchives {
             }
 }
 
-
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.0-milestone-3'
+}
 
 task downloadDeps << {
     def libDir = file('lib')
@@ -133,8 +135,4 @@ task downloadDeps << {
         from configurations.testRuntime
         into libDir
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-3'
 }

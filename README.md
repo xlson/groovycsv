@@ -1,7 +1,7 @@
 # GroovyCSV
 
 GroovyCSV is a library for Groovy which aims to make csv data
-easier to work with. The library was inspired by @[goeh's](http://twitter.com/goeh)
+easier (and more idiomatically Groovy) to work with. The library was inspired by @[goeh's](http://twitter.com/goeh)
 [ExcelBuilder](http://www.technipelago.se/blog/?p=44) that lets you
 iterate over rows in the excel file using `eachLine` and access values
 using the column names.
@@ -38,6 +38,8 @@ example we see the for each loop in use.
         println "$line.Name $line.Lastname"
     }
 
+The parse method takes a String or a Reader as argument.
+
 **Output:**
 
     Mark Andersson
@@ -58,7 +60,7 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 #### Latest snapshot
 
-* *Version:* 0.3-SNAPSHOT
+* *Version:* 1.0-SNAPSHOT
 * *Repository:* https://oss.sonatype.org/content/groups/public/
 
 ### Downloads
@@ -79,17 +81,14 @@ doing all the heavy lifting.
 
 ## Building
 
-GroovyCSV uses Gradle for building. Gradle handles the dependencies
-for you so all you need to do is install gradle and then build the 
-code. 
+GroovyCSV uses Gradle for building as is packaged with the gradle wrapper which will download and install gradle for you behind the scenes the first time you run it.
 
 **Build instruction**
 
-1. Download and install [Gradle 0.9-rc-2](http://www.gradle.org/downloads.html)
-2. Fetch the latest code: `git clone git://github.com/xlson/groovycsv.git`
-3. (Optional) Run the tests using `gradle test`
-4. Go to the project directory and run: `gradle jar`
+1. Fetch the latest code: `git clone git://github.com/xlson/groovycsv.git`
+2. (Optional) Run the tests using the gradle wrapper `./gradlew test`
+4. Go to the project directory and run: `./gradlew jar`
 
 You will find the built jar in `./build/libs`. If you need any
-dependencies you can download them using `gradle downloadDeps`, they
+dependencies you can download them using `./gradlew downloadDeps`, they
 end up in the `lib` folder.
