@@ -49,46 +49,7 @@
       A simple CSV parsing library for groovy
     </div>
 
-    <p>GroovyCSV is a library to make csv processing just a little bit
-    Groovier. The library uses <a href="http://opencsv.sourceforge.net/">opencsv</a> behind the scenes and merely tries to add a thin layer of “Groovy-ness” to the mix.</p><h2>Dependencies</h2>
-<p><ul><li><a href="http://opencsv.sourceforge.net/">opencsv 2.1</a></li></ul></p>
-<h2>Documentation and more information</h2>
-<p>
-<ul>
-<li><a href="docs/0.2/javadoc/">Javadoc</a></li>
-<li><a href="http://xlson.com/2010/11/08/groovycsv-0.2-released.html">GroovyCSV
-  0.2 Released</a></li>
-</ul>
-</p>
-
-
-<h2>Usage example</h2>
-<pre><code>
-@Grab('com.xlson.groovycsv:groovycsv:0.2')
-import com.xlson.groovycsv.CsvParse
-def csv = '''Name-Lastname
-Mark-'Anderson-Nielsen'
-Pete-Hansen'''
-
-def data = new CsvParser().parse(csv, separator: '-', quoteChar: "'")
-for(line in data) {
-    println "$line.Name $line.Lastname"
-}</code></pre>
-<h2>License</h2>
-<p>Apache V2</p>
-<h2>Authors</h2>
-<p>Leonard Axelsson (leo@xlson.com)<br/><br/>      </p>
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/xlson/groovycsv/zipball/master">zip</a> or
-      <a href="http://github.com/xlson/groovycsv/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/xlson/groovycsv</pre>
-    </p>
-
+    {{ content }}
     <div class="footer">
       get the source code on GitHub : <a href="http://github.com/xlson/groovycsv">xlson/groovycsv</a>
     </div>
