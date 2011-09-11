@@ -11,7 +11,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 ## Documentation and more information
 
-* [Javadoc](docs/0.2/javadoc/)
+* [Javadoc](docs/1.0/javadoc/)
 * [GroovyCSV](http://xlson.com/2010/11/08/groovycsv-0.2-released.html) 0.2 Released
 
 ## Features
@@ -23,8 +23,17 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 * Support for guessing separator and/or quote character
 * Support for reading csv without headers
 
-## Usage example
+## Arguments to parse or parseCsv
 
+* *separator*: configures the separator character to use (default: ,)
+* *quoteChar*: configures the quote character to use (default: ")
+* *escapeChar*: configures the escape character for the separator and quoteChar (default:\\)
+* *autoDetect*: sets up autodetect that will honor other configurations you've done (default: false)
+* *columnNames*: set custom column names instead of using the first line
+* *readFirstLine*: reads the first line as csv instead of using it as headers
+
+
+## Usage example
 
 #### Basic usage
 
@@ -39,6 +48,11 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
         println "$line.Name $line.Lastname"
     }
 
+*Output:*
+
+    Mark Andersson
+    Pete Hansen
+
 #### Parsing a headerless file
 
     @Grab('com.xlson.groovycsv:groovycsv:1.0')
@@ -51,6 +65,11 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
     for(line in data) {
         println "$line.fruit ${line[1]}"
     }
+
+*Output:*
+
+    Apple 2
+    Pear 5
 
 ## License
 
