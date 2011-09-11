@@ -25,7 +25,10 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 ## Usage example
 
-    @Grab('com.xlson.groovycsv:groovycsv:0.2')
+
+#### Basic usage
+
+    @Grab('com.xlson.groovycsv:groovycsv:1.0')
     import com.xlson.groovycsv.CsvParse
     def csv = '''Name-Lastname
     Mark-'Anderson-Nielsen'
@@ -34,6 +37,19 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
     def data = new CsvParser().parse(csv, separator: '-', quoteChar: "'")
     for(line in data) {
         println "$line.Name $line.Lastname"
+    }
+
+#### Parsing a headerless file
+
+    @Grab('com.xlson.groovycsv:groovycsv:1.0')
+    import com.xlson.groovycsv.CsvParser
+    def csv = '''Apple,2
+    Pear,5'''
+ 
+    def data = new CsvParser().parse(csv, readFirstLine:true,
+                                     columnNames:['fruit', 'qty'])
+    for(line in data) {
+        println "$line.fruit ${line[1]}"
     }
 
 ## License
