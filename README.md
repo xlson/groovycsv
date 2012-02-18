@@ -26,14 +26,14 @@ The parse method returns an iterator over the rows in the csv. This
 means we can use any of the default groovy ways to iterate, in this
 example we see the for each loop in use.
 
-    @Grab('com.xlson.groovycsv:groovycsv:0.2')
-    import com.xlson.groovycsv.CsvParser
+    @Grab('com.xlson.groovycsv:groovycsv:1.0')
+    import static com.xlson.groovycsv.CsvParser.parseCsv
     
     def csv = '''Name,Lastname
     Mark,Andersson
     Pete,Hansen'''
     
-    def data = new CsvParser().parse(csv)
+    def data = parseCsv(csv)
     for(line in data) {
         println "$line.Name $line.Lastname"
     }
