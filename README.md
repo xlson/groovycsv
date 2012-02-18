@@ -56,7 +56,7 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 * *GroupId:* com.xlson.groovycsv
 * *ArtifactId:* groovycsv
-* *Version:* 0.2
+* *Version:* 1.0
 
 #### Latest snapshot
 
@@ -65,11 +65,11 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 ### Downloads
 
-*GroovyCSV 0.2*
+*GroovyCSV 1.0*
 
-* [groovycsv-0.2.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2.jar)
-* [groovycsv-0.2-javadoc.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2-javadoc.jar)
-* [Javadoc Online](http://xlson.github.com/groovycsv/docs/0.2/javadoc/)
+* [groovycsv-1.0.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2.jar)
+* [groovycsv-1.0-javadoc.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.0/javadoc/)
 
 ## Dependencies
 
