@@ -5,6 +5,10 @@ layout: default
 
 GroovyCSV is a library to make csv processing just a little bit Groovier. The library uses [opencsv](http://opencsv.sourceforge.net/) behind the scenes and merely tries to add a thin layer of "Groovy-ness" to the mix.
 
+## Latest version
+
+1.0
+
 ## Dependencies
 
 [opencsv 2.1](http://opencsv.sourceforge.net/)
@@ -38,7 +42,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 #### Basic usage
 
     @Grab('com.xlson.groovycsv:groovycsv:1.0')
-    import com.xlson.groovycsv.CsvParse
+    import com.xlson.groovycsv.CsvParser
     def csv = '''Name-Lastname
     Mark-'Anderson-Nielsen'
     Pete-Hansen'''
@@ -79,9 +83,21 @@ Apache V2
 ## Authors
 Leonard Axelsson (leo@xlson.com)
 
-## Download
 
-You can download this project in either [zip](http://github.com/xlson/groovycsv/zipball/master) or [tar](http://github.com/xlson/groovycsv/tarball/master) formats.
+## Downloads
+
+*GroovyCSV 1.0*
+
+* [groovycsv-1.0.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-1.0.jar)
+* [groovycsv-1.0-javadoc.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-1.0-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.0/javadoc/)
+
+*GroovyCSV 0.2*
+
+* [groovycsv-0.2.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2.jar)
+* [groovycsv-0.2-javadoc.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-0.2-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/0.2/javadoc/)
+
 
 You can also clone the project with [Git](http://git-scm.com) by running:
 `$ git clone git://github.com/xlson/groovycsv`
