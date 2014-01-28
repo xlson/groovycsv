@@ -54,7 +54,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 *Output:*
 
-    Mark Andersson
+    Mark Andersson-Nielsen
     Pete Hansen
 
 #### Parsing a headerless file
