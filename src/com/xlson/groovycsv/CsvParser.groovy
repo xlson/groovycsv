@@ -133,9 +133,9 @@ class CsvParser {
     }
 
     private CSVReader createCSVReader(Map args = [:], Reader reader) {
-        char separator
-        char quoteChar
-        char escapeChar = args.escapeChar
+        Character separator
+        Character quoteChar
+        Character escapeChar = args.escapeChar
         
         if (args.autoDetect == true) {
             reader = new PushbackReader(reader, autoDetectCharNumber)
