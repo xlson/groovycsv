@@ -147,7 +147,7 @@ class CsvParser {
             quoteChar = args.quoteChar ?: '"'
         }
 
-        if(escapeChar) {
+        if(escapeChar != null) {
             return new CSVReader(reader, separator, quoteChar, escapeChar)    
         } else {
             return new CSVReader(reader, separator, quoteChar)
