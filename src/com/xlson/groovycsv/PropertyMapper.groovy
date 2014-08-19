@@ -68,6 +68,7 @@ class PropertyMapper {
     }
 
     Map toMap() {
-        [this.columns.keySet() as String[], values].transpose().collectEntries()
+        def sortedKeys = columns.keySet().sort { columns[it] }
+        [sortedKeys, values].transpose().collectEntries()
     }
 }
