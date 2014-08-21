@@ -66,6 +66,19 @@ abc,-4-'''
         ['Name': 0, 'Age': 1]       |   ['Mark', '56']  |   "Name: Mark, Age: 56"   
     }
 
+    def "PropertyMapper has a toMap() that returns a map representation."() {
+        setup:
+        def pm = new PropertyMapper(values: values, columns: columns)
+
+        expect:
+        pm.toMap() == toMapRepresentation
+
+        where:
+        columns                     |   values          |   toMapRepresentation
+        ['a': 0, 'b': 1, 'c': 2]    |   ['1', '2', '3'] |   ['a': '1', 'b': '2', 'c': '3']
+        ['Name': 0, 'Age': 1]       |   ['Mark', '56']  |   ['Name': 'Mark', 'Age': '56']
+    }
+
     def "readAll should never be called on the CSVReader instance used to parse the csv."() {
         setup:
         CSVReader csvReader = Mock(CSVReader)

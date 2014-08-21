@@ -66,4 +66,9 @@ class PropertyMapper {
     String toString() {
         columns.collect { key, index -> "$key: ${values[index]}" }.join(', ')
     }
+
+    Map toMap() {
+        def sortedKeys = columns.keySet().sort { columns[it] }
+        [sortedKeys, values].transpose().collectEntries()
+    }
 }

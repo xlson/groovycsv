@@ -15,13 +15,13 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
-    mavenRepo urls: "http://m2repo.spockframework.org/snapshots"
+    maven { url "http://m2repo.spockframework.org/snapshots" }
 }
 
 dependencies {
-    groovy group: 'org.codehaus.groovy', name: 'groovy-all', version: '1.7.3'
-    compile 'net.sf.opencsv:opencsv:2.1'
-    testCompile "org.spockframework:spock-core:0.4-groovy-1.7"
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '1.8.8'
+    compile 'net.sf.opencsv:opencsv:2.3'
+    testCompile "org.spockframework:spock-core:0.7-groovy-1.8"
     testCompile "cglib:cglib-nodep:2.2"
     testCompile "org.objenesis:objenesis:1.2"
 }
