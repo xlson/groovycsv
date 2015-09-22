@@ -125,7 +125,7 @@ uploadArchives {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-3'
+    gradleVersion = '2.0'
 }
 
 task downloadDeps << {
