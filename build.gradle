@@ -10,7 +10,7 @@ buildscript {
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
-apply plugin: de.huxhorn.gradle.pgp.PgpPlugin
+apply plugin: 'signing'
 apply plugin: 'idea'
 
 repositories {
@@ -26,7 +26,7 @@ dependencies {
     testCompile "org.objenesis:objenesis:1.2"
 }
 
-version = '1.0-SNAPSHOT'
+version = '1.1-SNAPSHOT'
 group = 'com.xlson.groovycsv'
 
 sourceSets {
@@ -53,79 +53,15 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives groovydocJar
-    archives sourcesJar
-
+  archives groovydocJar, sourcesJar
 }
 
-def deployer = null
-def installer = install.repositories.mavenInstaller
-
-uploadArchives {
-    // Checks if login information for the logon repo is set correctly.
-    // Should be set in gradle.properties (check gradle.properties.example)
-    if(project.hasProperty('repoUserName') && project.hasProperty('repoPassword')) {
-       repositories {
-            deployer = mavenDeployer {
-                configureAuth = {
-                    authentication(userName: repoUserName, password: repoPassword)
-                }
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/", configureAuth) 
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/", configureAuth)
-            }
-        }
-    }
-}
-
-[installer, deployer]*.pom*.whenConfigured {pom ->
-    pom.project {
-        name 'GroovyCSV'
-        packaging 'jar' // not working
-        description 'Library for parsing csv in Groovy'
-        url 'http://github.com/xlson/groovycsv'
-        inceptionYear '2010'
-            
-        scm {
-            url 'scm:git:git@github.com:xlson/groovycsv.git'
-            connection 'http://github.com/xlson/groovycsv'
-        }
-            
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
-                    }
-                }
-            
-                developers {
-                    developer {
-                        id 'xlson'
-                        name 'Leonard Axelsson'
-                        email 'leonard.axelsson@gmail.com'
-                        url 'http://xlson.com/'
-                        timezone '+1'
-                    }
-                }
-            }
-
-            pom.withXml { XmlProvider xmlProvider ->
-                def xml = xmlProvider.asString()
-                def pomXml = new XmlParser().parseText(xml.toString())
-
-                pomXml.version[0] + { packaging('jar') }
-
-                def newXml = new StringWriter()
-                def printer = new XmlNodePrinter(new PrintWriter(newXml))
-                printer.preserveWhitespace = true
-                printer.print(pomXml)
-                xml.setLength(0)
-                xml.append(newXml.toString())
-            }
+signing {
+    sign configurations.archives
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-3'
+    gradleVersion = '2.8'
 }
 
 task downloadDeps << {
@@ -135,4 +71,66 @@ task downloadDeps << {
         from configurations.testRuntime
         into libDir
     }
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'GroovyCSV'
+        packaging 'jar'
+        // optionally artifactId can be defined here 
+        description 'Library for parsing csv in Groovy'
+        url 'http://github.com/xlson/groovycsv'
+        inceptionYear '2010'
+
+        scm {
+          connection 'scm:git:git@github.com:xlson/groovycsv.git'
+          developerConnection 'scm:git:git@github.com:xlson/groovycsv.git'
+          url 'http://github.com/xlson/groovycsv'
+        }
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+
+        developers {
+          developer {
+            id 'xlson'
+            name 'Leonard Gram'
+            email 'leo@xlson.com'
+            url 'http://xlson.com/'
+            timezone '+1'
+          }
+        }
+      }
+
+      pom.withXml { XmlProvider xmlProvider ->
+        def xml = xmlProvider.asString()
+        def pomXml = new XmlParser().parseText(xml.toString())
+
+        pomXml.version[0] + { packaging('jar') }
+
+        def newXml = new StringWriter()
+        def printer = new XmlNodePrinter(new PrintWriter(newXml))
+        printer.preserveWhitespace = true
+        printer.print(pomXml)
+        xml.setLength(0)
+        xml.append(newXml.toString())
+      }
+    }
+  }
 }
