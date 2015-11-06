@@ -1,3 +1,7 @@
 // This must be configured if you wanna deploy to the Nexus OSS Public Repo
-repoUserName=usernameHere
-repoPassword=passwordHere
+signing.keyId=
+signing.password=
+signing.secretKeyRingFile=
+
+ossrhUsername=
+ossrhPassword=

@@ -55,9 +55,10 @@ task sourcesJar(type: Jar) {
 artifacts {
   archives groovydocJar, sourcesJar
 }
-
-signing {
+if(isSetupForDeployToMavenCentral()) { 
+  signing {
     sign configurations.archives
+  }
 }
 
 task wrapper(type: Wrapper) {
@@ -73,17 +74,34 @@ task downloadDeps << {
     }
 }
 
+
+def isSetupForDeployToMavenCentral() { 
+  def requiredProperties = ['ossrhUsername',
+                            'ossrhPassword',
+                            'signing.keyId',
+                            'signing.password',
+                            'signing.secretKeyRingFile']
+  for(prop in requiredProperties) { 
+    if(!project.hasProperty(prop)) { 
+      return false
+    }
+  }
+  return true
+}
+
 uploadArchives {
   repositories {
     mavenDeployer {
       beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+      if(isSetupForDeployToMavenCentral()) {
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
 
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
       }
 
       pom.project {
