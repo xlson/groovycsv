@@ -7,20 +7,21 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 ## Latest version
 
-1.0
+1.1
 
 ## Dependencies
 
-[opencsv 2.1](http://opencsv.sourceforge.net/)
+[opencsv 2.3](http://opencsv.sourceforge.net/)
 
 ## Documentation and more information
 
-* [Javadoc](docs/1.0/javadoc/)
-* [GroovyCSV](http://xlson.com/2010/11/08/groovycsv-0.2-released.html) 0.2 Released
+* [Javadoc](docs/1.1/javadoc/)
+* [GroovyCSV](http://xlson.com/2015/11/09/groovycsv-updated-to-1.1.html) GroovyCSV updated to 1.1
 
 ## Features
 
 * Value-access by header name or position
+* Accessing values as a map
 * Iteration using the ordinary collection methods (`findAll`, `collect`
   and so on)
 * Full support for OpenCSV's configurability
@@ -41,7 +42,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Basic usage
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.0')
+    @Grab('com.xlson.groovycsv:groovycsv:1.1')
     import static com.xlson.groovycsv.CsvParser.parseCsv
     def csv = '''ID,Product
     3,Shoe
@@ -59,7 +60,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Custom separator and quote character
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.0')
+    @Grab('com.xlson.groovycsv:groovycsv:1.1')
     import com.xlson.groovycsv.CsvParser
     def csv = '''Name-Lastname
     Mark-'Anderson-Nielsen'
@@ -77,7 +78,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Parsing a headerless file
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.0')
+    @Grab('com.xlson.groovycsv:groovycsv:1.1')
     import com.xlson.groovycsv.CsvParser
     def csv = '''Apple,2
     Pear,5'''
@@ -95,14 +96,20 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 ## License
 
-Apache V2
+The Apache License, Version 2.0
 
 
 ## Authors
-Leonard Axelsson (leo@xlson.com)
+Leonard Gram (leo@xlson.com)
 
 
 ## Downloads
+
+*GroovyCSV 1.1*
+
+* [groovycsv-1.1.jar](https://github.com/xlson/groovycsv/releases/download/releases%2F1.1/groovycsv-1.1.jar)
+* [groovycsv-1.1-javadoc.jar](https://github.com/xlson/groovycsv/releases/download/releases%2F1.1/groovycsv-1.1-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.1/javadoc/)
 
 *GroovyCSV 1.0*
 
