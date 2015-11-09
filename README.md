@@ -26,7 +26,7 @@ The parse method returns an iterator over the rows in the csv. This
 means we can use any of the default groovy ways to iterate, in this
 example we see the for each loop in use.
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.0')
+    @Grab('com.xlson.groovycsv:groovycsv:1.1')
     import static com.xlson.groovycsv.CsvParser.parseCsv
     
     def csv = '''Name,Lastname
@@ -56,27 +56,29 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 * *GroupId:* com.xlson.groovycsv
 * *ArtifactId:* groovycsv
-* *Version:* 1.0
+* *Version:* 1.1
 
 #### Latest snapshot
 
-* *Version:* 1.0-SNAPSHOT
+* *Version:* 1.1
 * *Repository:* https://oss.sonatype.org/content/groups/public/
 
 ### Downloads
 
-*GroovyCSV 1.0*
+*GroovyCSV 1.1*
 
-* [groovycsv-1.0.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-1.0.jar)
-* [groovycsv-1.0-javadoc.jar](https://github.com/downloads/xlson/groovycsv/groovycsv-1.0-javadoc.jar)
-* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.0/javadoc/)
+
+* [groovycsv-1.1.jar](https://github.com/xlson/groovycsv/releases/download/releases%2F1.1/groovycsv-1.1.jar)
+* [groovycsv-1.1-javadoc.jar](https://github.com/xlson/groovycsv/releases/download/releases%2F1.1/groovycsv-1.1-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.1/javadoc/)
 
 ## Dependencies
 
-* [Groovy 1.7.x](http://groovy.codehaus.org)
+* [Groovy 1.8.x](http://groovy.codehaus.org)
 * [OpenCSV 2.x](http://opencsv.sourceforge.net/)
 
-Many thanks to Glen Smith and the other's in the OpenCSV team for
+
+Many thanks to everyone who's contributed to the project and everyone in the OpenCSV team for
 doing all the heavy lifting.
 
 ## Building
