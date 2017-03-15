@@ -143,6 +143,20 @@ abc,-4-'''
 
     }
 
+    def "Parser quietly ignores empty lines."() {
+        setup:
+        def csvData = '''Fruit,Country
+
+Apple,Sweden
+'''
+        def csv = new CsvParser().parse(csvData)
+
+        expect:
+        csv.hasNext()
+        csv.next().toMap() == ['Fruit':'Apple',
+                               'Country':'Sweden']
+    }
+
     def "Parse supports java.io.Reader as input."() {
         when:
         def csv = new CsvParser().parse(new StringReader(testDataWithColumnNamesAnd2Rows))

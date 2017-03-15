@@ -69,7 +69,7 @@ class CsvIterator implements Iterator {
         else if(nextValueIsRead()) {
             return true
         } else {
-            readValue = csvReader.readNext()
+            readValue = getNextValue()
             if(readValue == null) {
                 close()
             }
@@ -97,10 +97,26 @@ class CsvIterator implements Iterator {
             readValue = null
             return value
         } else {
-            return csvReader.readNext()
+            def nextValue
+            for(;;) {
+                nextValue = csvReader.readNext()
+                if(nextValue == null) {
+                    break
+                } else if(isEmptyLine(nextValue)) {
+                    // Continues the loop and reads another value
+                } else {
+                    println nextValue.size()
+                    break
+                }
+            }
+            println nextValue
+            return nextValue
         }
     }
 
+    private boolean isEmptyLine(String[] nextValue) {
+        nextValue.size() == 1 && nextValue.first().isEmpty()
+    }
 
     /**
      * Gets the next row in the csv file.
