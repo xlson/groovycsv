@@ -3,3 +3,4 @@ build/*
 lib/*
 _site
 gradle.properties
+.idea
