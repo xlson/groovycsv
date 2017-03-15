@@ -105,11 +105,9 @@ class CsvIterator implements Iterator {
                 } else if(isEmptyLine(nextValue)) {
                     // Continues the loop and reads another value
                 } else {
-                    println nextValue.size()
                     break
                 }
             }
-            println nextValue
             return nextValue
         }
     }
