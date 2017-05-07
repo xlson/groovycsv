@@ -2,7 +2,7 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    
+
     dependencies {
         classpath 'de.huxhorn.gradle:de.huxhorn.gradle.pgp-plugin:0.0.4'
     }
@@ -26,7 +26,7 @@ dependencies {
     testCompile "org.objenesis:objenesis:1.2"
 }
 
-version = '1.1'
+version = '1.2'
 group = 'com.xlson.groovycsv'
 
 sourceSets {
@@ -55,7 +55,7 @@ task sourcesJar(type: Jar) {
 artifacts {
   archives groovydocJar, sourcesJar
 }
-if(isSetupForDeployToMavenCentral()) { 
+if(isSetupForDeployToMavenCentral()) {
   signing {
     sign configurations.archives
   }
@@ -75,14 +75,14 @@ task downloadDeps << {
 }
 
 
-def isSetupForDeployToMavenCentral() { 
+def isSetupForDeployToMavenCentral() {
   def requiredProperties = ['ossrhUsername',
                             'ossrhPassword',
                             'signing.keyId',
                             'signing.password',
                             'signing.secretKeyRingFile']
-  for(prop in requiredProperties) { 
-    if(!project.hasProperty(prop)) { 
+  for(prop in requiredProperties) {
+    if(!project.hasProperty(prop)) {
       return false
     }
   }
@@ -107,7 +107,7 @@ uploadArchives {
       pom.project {
         name 'GroovyCSV'
         packaging 'jar'
-        // optionally artifactId can be defined here 
+        // optionally artifactId can be defined here
         description 'Library for parsing csv in Groovy'
         url 'http://github.com/xlson/groovycsv'
         inceptionYear '2010'

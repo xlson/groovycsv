@@ -28,11 +28,11 @@ example we see the for each loop in use.
 
     @Grab('com.xlson.groovycsv:groovycsv:1.1')
     import static com.xlson.groovycsv.CsvParser.parseCsv
-    
+
     def csv = '''Name,Lastname
     Mark,Andersson
     Pete,Hansen'''
-    
+
     def data = parseCsv(csv)
     for(line in data) {
         println "$line.Name $line.Lastname"
@@ -48,7 +48,7 @@ The parse method takes a String or a Reader as argument.
 ## Getting GroovyCSV
 
 GroovyCSV is available in Maven Central. It is also available directly from GitHub
-(links below). 
+(links below).
 
 ### Maven & Ivy configuration
 
@@ -56,11 +56,11 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 * *GroupId:* com.xlson.groovycsv
 * *ArtifactId:* groovycsv
-* *Version:* 1.1
+* *Version:* 1.2
 
 #### Latest snapshot
 
-* *Version:* 1.1
+* *Version:* 1.2
 * *Repository:* https://oss.sonatype.org/content/groups/public/
 
 ### Downloads
