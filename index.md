@@ -98,9 +98,12 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 The Apache License, Version 2.0
 
 
-## Authors
+## Author
 Leonard Gram (leo@xlson.com)
 
+## Contributors
+[antoineroux](https://github.com/antoineroux)
+[gmazelier](https://github.com/gmazelier)
 
 ## Downloads
 
