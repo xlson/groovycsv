@@ -102,8 +102,9 @@ The Apache License, Version 2.0
 Leonard Gram (leo@xlson.com)
 
 ## Contributors
-[antoineroux](https://github.com/antoineroux)
-[gmazelier](https://github.com/gmazelier)
+
+- [antoineroux](https://github.com/antoineroux)
+- [gmazelier](https://github.com/gmazelier)
 
 ## Downloads
 
