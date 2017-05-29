@@ -3,20 +3,19 @@ title: xlson/groovycsv @ GitHub
 layout: default
 ---
 
-GroovyCSV is a library to make csv processing just a little bit Groovier. The library uses [opencsv](http://opencsv.sourceforge.net/) behind the scenes and merely tries to add a thin layer of "Groovy-ness" to the mix.
+GroovyCSV is a library to make csv processing just a little bit Groovier. The library uses [opencsv](https://github.com/EmergentOrder/opencsv) behind the scenes and merely tries to add a thin layer of "Groovy-ness" to the mix.
 
 ## Latest version
 
-1.1
+1.2
 
 ## Dependencies
 
-[opencsv 2.3](http://opencsv.sourceforge.net/)
+[opencsv 2.4](https://github.com/EmergentOrder/opencsv)
 
 ## Documentation and more information
 
-* [Javadoc](docs/1.1/javadoc/)
-* [GroovyCSV](http://xlson.com/2015/11/09/groovycsv-updated-to-1.1.html) GroovyCSV updated to 1.1
+* [Javadoc](docs/1.2/javadoc/)
 
 ## Features
 
@@ -42,12 +41,12 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Basic usage
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.1')
+    @Grab('com.xlson.groovycsv:groovycsv:1.2')
     import static com.xlson.groovycsv.CsvParser.parseCsv
     def csv = '''ID,Product
     3,Shoe
     1,Table'''
-    
+
     def data = parseCsv(csv)
     for(line in data) {
         println "ID=$line.ID, Product=$line.Product"
@@ -60,12 +59,12 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Custom separator and quote character
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.1')
+    @Grab('com.xlson.groovycsv:groovycsv:1.2')
     import com.xlson.groovycsv.CsvParser
     def csv = '''Name-Lastname
     Mark-'Anderson-Nielsen'
     Pete-Hansen'''
-    
+
     def data = new CsvParser().parse(csv, separator: '-', quoteChar: "'")
     for(line in data) {
         println "$line.Name $line.Lastname"
@@ -78,11 +77,11 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Parsing a headerless file
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.1')
+    @Grab('com.xlson.groovycsv:groovycsv:1.2')
     import com.xlson.groovycsv.CsvParser
     def csv = '''Apple,2
     Pear,5'''
- 
+
     def data = new CsvParser().parse(csv, readFirstLine:true,
                                      columnNames:['fruit', 'qty'])
     for(line in data) {
@@ -104,6 +103,12 @@ Leonard Gram (leo@xlson.com)
 
 
 ## Downloads
+
+*GroovyCSV 1.2*
+
+* [groovycsv-1.2.jar](https://oss.sonatype.org/service/local/repositories/releases/content/com/xlson/groovycsv/groovycsv/1.2/groovycsv-1.2.jar)
+* [groovycsv-1.2-javadoc.jar](https://oss.sonatype.org/service/local/repositories/releases/content/com/xlson/groovycsv/groovycsv/1.2/groovycsv-1.2-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.2/javadoc/)
 
 *GroovyCSV 1.1*
 
