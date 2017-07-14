@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Leonard Axelsson
+ * Copyright 2010 Leonard Gram
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import au.com.bytecode.opencsv.CSVReader
  * }</pre>
  *
  *
- * @author Leonard Axelsson
+ * @author Leonard Gram
  * @since 0.1
  */
 class CsvParser {

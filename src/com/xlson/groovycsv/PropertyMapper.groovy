@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Leonard Axelsson
+ * Copyright 2010 Leonard Gram
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package com.xlson.groovycsv
  * Maps between column names and values in a list. Uses <code>propertyMissing</code>
  * to allow for named access.
  *
- * @author Leonard Axelsson
+ * @author Leonard Gram
  * @since 0.1
  */
 class PropertyMapper {
