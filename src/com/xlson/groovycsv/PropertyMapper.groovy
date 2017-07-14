@@ -16,6 +16,8 @@
 
 package com.xlson.groovycsv
 
+import groovy.transform.EqualsAndHashCode
+
 /**
  * Maps between column names and values in a list. Uses <code>propertyMissing</code>
  * to allow for named access.
@@ -23,7 +25,8 @@ package com.xlson.groovycsv
  * @author Leonard Gram
  * @since 0.1
  */
-class PropertyMapper {
+@EqualsAndHashCode
+class PropertyMapper{
 
     /**
      * A list of values for one csv line.

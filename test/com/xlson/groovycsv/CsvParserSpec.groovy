@@ -30,6 +30,12 @@ Kiwi:200'''
 abc,-4-'''
   }
 
+  def getTestDataWithDuplicatedLines() {
+      '''a,b
+1,2
+1,2
+3,4'''
+  }
     def "Iterating over the parsed csv values are available by column name."() {
         setup:
         def data = new CsvParser().parse(getTestDataWithColumnNamesAnd3Rows())
@@ -77,6 +83,15 @@ abc,-4-'''
         columns                     |   values          |   toMapRepresentation
         ['a': 0, 'b': 1, 'c': 2]    |   ['1', '2', '3'] |   ['a': '1', 'b': '2', 'c': '3']
         ['Name': 0, 'Age': 1]       |   ['Mark', '56']  |   ['Name': 'Mark', 'Age': '56']
+    }
+
+    def "It's possible to use .unique() to get only the unique lines of a csv."() {
+        setup:
+        def csv = CsvParser.parseCsv(testDataWithDuplicatedLines)
+        def data = csv.collect{ it }.unique()
+
+        expect:
+        data.size() == 2
     }
 
     def "readAll should never be called on the CSVReader instance used to parse the csv."() {
