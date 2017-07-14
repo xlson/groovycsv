@@ -88,7 +88,7 @@ abc,-4-'''
     def "It's possible to use .unique() to get only the unique lines of a csv."() {
         setup:
         def csv = CsvParser.parseCsv(testDataWithDuplicatedLines)
-        def data = csv.collect{ it }.unique()
+        def data = csv.unique().collect{it}
 
         expect:
         data.size() == 2

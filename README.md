@@ -60,7 +60,7 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 #### Latest snapshot
 
-* *Version:* 1.2
+* *Version:* 1.2.1-SNAPSHOT
 * *Repository:* https://oss.sonatype.org/content/groups/public/
 
 ### Downloads
