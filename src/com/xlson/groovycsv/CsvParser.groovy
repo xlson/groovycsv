@@ -90,10 +90,11 @@ class CsvParser {
      * Arguments for configuration:
      * <li>separator: configures the separator character to use (default: ,)
      * <li>quoteChar: configures the quote character to use (default: ")
-     * <li>escapeChar: configures the escape character for the separator and quoteChar (default:\
+     * <li>escapeChar: configures the escape character for the separator and quoteChar (default:\)
      * <li>autoDetect: sets up autodetect that will honor other configurations you've done (default: false)
      * <li>columnNames: set custom column names instead of using the first line
      * <li>readFirstLine: reads the first line as csv instead of using it as headers
+     * <li>trimWhitespaceFromColumnNames: trims leading and trailing whitespace for column names when parsing them (default: false)
      *
      * <p>
      * Usage:
@@ -126,6 +127,10 @@ class CsvParser {
 
         if (args.columnNames) {
             columnNames = args.columnNames
+        }
+
+        if (args.trimWhitespaceFromColumnNames) {
+            columnNames = columnNames.collect { it.toString().trim() }
         }
         return columnNames
     }

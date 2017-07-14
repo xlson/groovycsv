@@ -211,4 +211,20 @@ Apple,Sweden
         new StringReader(testDataWithColumnNamesAnd2Rows) | ['a', 'h']
     }
 
+    def getTestDataWithWhitespaceSurroundingColumnNames() {
+        """ Name , Lastname,Country 
+Leonard,Gram,Sweden"""
+    }
+
+    def "CsvParser can strip leading and trailing whitespaces on column names."() {
+        when:
+        def csv = CsvParser.parseCsv(testDataWithWhitespaceSurroundingColumnNames, trimWhitespaceFromColumnNames: true)
+
+        then:
+        for(line in csv) {
+            line.Name == 'Leonard'
+            line.Lastname == 'Gram'
+            line.Country == 'Sweden'
+        }
+    }
 }
