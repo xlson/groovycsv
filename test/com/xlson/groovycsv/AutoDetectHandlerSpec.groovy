@@ -3,31 +3,31 @@ package com.xlson.groovycsv
 import spock.lang.Specification;
 
 class AutoDetectHandlerSpec extends Specification {
-    
-    
+
+
     def "should auto detect quote character"() {
         setup:
         def adh = new AutoDetectHandler(linesToInspect: csvData)
-        
+
         expect:
         adh.autoDetectQuoteChar() == quoteChar
-        
+
         where:
         csvData                         | quoteChar
         testDataWithColumnNamesAnd3Rows | '"'
         testDataWithColumnNamesAnd2Rows | '"'
         csvUsingDoubleQuoteAsQuoteChar  | '"'
         csvUsingPercentageAsQuoteChar   | "%"
-        
+
     }
-    
+
     def "should auto detect separator"() {
         setup:
         def adh = new AutoDetectHandler(linesToInspect: csvData)
-        
+
         expect:
         adh.autoDetectSeparator() == separator
-        
+
         where:
         csvData                         | separator
         testDataWithColumnNamesAnd3Rows | ","
@@ -36,7 +36,7 @@ class AutoDetectHandlerSpec extends Specification {
         csvWithColonAsSeparator         | ":"
     }
 
-    
+
     def getTestDataWithColumnNamesAnd3Rows() {
         '''Name,Lastname,Age,Email
 Mark,Hamilton,45,mark@hamilton.com
@@ -56,7 +56,7 @@ Apple:5
 Pear:10
 Kiwi:200'''
     }
-    
+
     def getCsvUsingDoubleQuoteAsQuoteChar() {
         '''Typo,Desc
 123,"text ,and more"'''

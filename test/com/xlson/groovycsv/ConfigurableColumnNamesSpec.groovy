@@ -51,7 +51,7 @@ Jane,Doe,24"""
 
         when:
         def customColumnNames = ['1', '2', '3']
-        def columnNames = new CsvParser().parseColumnNames([columnNames:customColumnNames], reader)
+        def columnNames = new CsvParser().parseColumnNames([columnNames: customColumnNames], reader)
 
         then:
         1 * reader.readNext()
@@ -64,9 +64,9 @@ Jane,Doe,24"""
 
         when:
         def customColumnNames = ['1', '2', '3']
-        def columnNames = new CsvParser().parseColumnNames([columnNames:customColumnNames,
+        def columnNames = new CsvParser().parseColumnNames([columnNames  : customColumnNames,
                                                             readFirstLine: true],
-                                                           reader)
+                reader)
         then:
         0 * reader.readNext()
         columnNames == customColumnNames

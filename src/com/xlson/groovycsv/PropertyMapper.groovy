@@ -26,14 +26,12 @@ import groovy.transform.EqualsAndHashCode
  * @since 0.1
  */
 @EqualsAndHashCode
-class PropertyMapper{
+class PropertyMapper {
 
     /**
      * A list of values for one csv line.
      */
     def values
-
-
 
     /**
      * The columns of the csv. 

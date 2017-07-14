@@ -3,7 +3,7 @@ package com.xlson.groovycsv
 import spock.lang.Specification
 import au.com.bytecode.opencsv.CSVReader
 
-class  CsvIteratorSpec extends Specification {
+class CsvIteratorSpec extends Specification {
 
     def getCsvData() {
         def csv = """a,b,c
@@ -31,7 +31,7 @@ class  CsvIteratorSpec extends Specification {
         setup:
         CSVReader csvReader = Mock(CSVReader)
         def iter = new CsvIterator(["a", "b"], csvReader)
-        csvReader.readNext() >>> [["1","2"],["3","4"], null]
+        csvReader.readNext() >>> [["1", "2"], ["3", "4"], null]
 
         when:
         iter.next()
@@ -55,7 +55,7 @@ class  CsvIteratorSpec extends Specification {
         def csvIterator = new CsvIterator(*csvData)
 
         when:
-        csvIterator.each { }
+        csvIterator.each {}
 
         then:
         csvIterator.isClosed()

@@ -24,11 +24,11 @@ Pear:10
 Kiwi:200'''
     }
 
-  def getTestDataWithQuotedComma() {
-    '''a,b
+    def getTestDataWithQuotedComma() {
+        '''a,b
 -,abc-,4
 abc,-4-'''
-  }
+    }
 
     def "Iterating over the parsed csv values are available by column name."() {
         setup:
@@ -38,11 +38,11 @@ abc,-4-'''
         data*."$columnName" == values
 
         where:
-        columnName  |   values
-        "Name"      |   ['Mark', 'Bosse', "Peps"]
-        "Lastname"  |   ['Hamilton', 'Bildoktorn', 'Persson']
-        'Age'       |   ['45', '50', '65']
-        "Email"     |   ['mark@hamilton.com', 'bildoktorn@tv4.se', 'peps.persson@hotmail.com']
+        columnName | values
+        "Name"     | ['Mark', 'Bosse', "Peps"]
+        "Lastname" | ['Hamilton', 'Bildoktorn', 'Persson']
+        'Age'      | ['45', '50', '65']
+        "Email"    | ['mark@hamilton.com', 'bildoktorn@tv4.se', 'peps.persson@hotmail.com']
     }
 
     def "Functional collection methods are available on parsed object."() {
@@ -63,7 +63,8 @@ abc,-4-'''
 
         when: "csv is parsed and looped through"
         def data = partiallyMockedCsvParser.parse(getTestDataWithColumnNamesAnd2Rows())
-        for(d in data) {}
+        for (d in data) {
+        }
 
         then: "readAll() should not be called."
         0 * csvReader.readAll()
@@ -77,9 +78,9 @@ abc,-4-'''
         data*."$columnName" == values
 
         where:
-        columnName      |   values
-        "Fruit"         |   ['Apple', 'Pear', 'Kiwi']
-        "Count"         |   ["5", "10", "200"]
+        columnName | values
+        "Fruit"    | ['Apple', 'Pear', 'Kiwi']
+        "Count"    | ["5", "10", "200"]
     }
 
     def getCsvUsingDoubleQuoteAsQuoteChar() {
@@ -101,9 +102,9 @@ abc,-4-'''
         csv*."$columnName" == values
 
         where:
-        csvData                         |   quoteChar   |   values              |   columnName
-        csvUsingDoubleQuoteAsQuoteChar  |   '"'         |   ['text ,and more']   |   "Desc"
-        csvUsingPercentageAsQuoteChar   |   "%"         |   ['bla, ha']          |   "Desc"
+        csvData                        | quoteChar | values             | columnName
+        csvUsingDoubleQuoteAsQuoteChar | '"'       | ['text ,and more'] | "Desc"
+        csvUsingPercentageAsQuoteChar  | "%"       | ['bla, ha']        | "Desc"
     }
 
     def "Parse supports custom escape char."() {
@@ -127,8 +128,8 @@ Apple,Sweden
 
         expect:
         csv.hasNext()
-        csv.next().toMap() == ['Fruit':'Apple',
-                               'Country':'Sweden']
+        csv.next().toMap() == ['Fruit'  : 'Apple',
+                               'Country': 'Sweden']
     }
 
     def "Parse supports java.io.Reader as input."() {
@@ -164,50 +165,50 @@ Apple,Sweden
         csv*."Fruit:Count" == ["Apple:5", "Pear:10", "Kiwi:200"]
     }
 
-  def "The separator should be allowed in the csv data if its quoted"() {
-    when:
-    def csv = new CsvParser().parse(quoteChar:'-', testDataWithQuotedComma)
+    def "The separator should be allowed in the csv data if its quoted"() {
+        when:
+        def csv = new CsvParser().parse(quoteChar: '-', testDataWithQuotedComma)
 
-    then:
-    csv*.a == [',abc','abc']
-  }
+        then:
+        csv*.a == [',abc', 'abc']
+    }
 
-  def "Values in the csv can be obtained by using the index of the column."() {
-      when:
-      def csv = new CsvParser().parse(testDataWithColumnNamesAnd2Rows)
-      def line = csv.next()
+    def "Values in the csv can be obtained by using the index of the column."() {
+        when:
+        def csv = new CsvParser().parse(testDataWithColumnNamesAnd2Rows)
+        def line = csv.next()
 
-      then:
-      line[0] == 'a'
-      line[1] == 'paris'
-      line[2] == '5'
-  }
+        then:
+        line[0] == 'a'
+        line[1] == 'paris'
+        line[2] == '5'
+    }
 
-  def csvWithoutHeaders = 'Joe,Doe,19'
+    def csvWithoutHeaders = 'Joe,Doe,19'
 
-  def "Parsing csv without headers using the position of the values."() {
-      when:
-      def csv = new CsvParser().parse(readFirstLine: true,  csvWithoutHeaders)
-      def line = csv.next()
+    def "Parsing csv without headers using the position of the values."() {
+        when:
+        def csv = new CsvParser().parse(readFirstLine: true, csvWithoutHeaders)
+        def line = csv.next()
 
-      then:
-      line[0] == 'Joe'
-      line[1] == 'Doe'
-      line[2] == '19'
+        then:
+        line[0] == 'Joe'
+        line[1] == 'Doe'
+        line[2] == '19'
 
-  }
+    }
 
-  def "CsvParser.parseCsv can be used statically."() {
-      when:
-      def csv = CsvParser.parseCsv(csvData)
+    def "CsvParser.parseCsv can be used statically."() {
+        when:
+        def csv = CsvParser.parseCsv(csvData)
 
-      then:
-      csv*.Letter == letterValues
+        then:
+        csv*.Letter == letterValues
 
-      where:
-      csvData                                           | letterValues
-      testDataWithColumnNamesAnd2Rows                   | ['a', 'h']
-      new StringReader(testDataWithColumnNamesAnd2Rows) | ['a', 'h']
-  }
+        where:
+        csvData                                           | letterValues
+        testDataWithColumnNamesAnd2Rows                   | ['a', 'h']
+        new StringReader(testDataWithColumnNamesAnd2Rows) | ['a', 'h']
+    }
 
 }

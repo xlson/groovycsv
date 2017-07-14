@@ -63,14 +63,13 @@ class CsvIterator implements Iterator {
      * @return true if there is more data in the iterator
      */
     boolean hasNext() {
-        if(isClosed()) {
+        if (isClosed()) {
             return false
-        }
-        else if(nextValueIsRead()) {
+        } else if (nextValueIsRead()) {
             return true
         } else {
             readValue = getNextValue()
-            if(readValue == null) {
+            if (readValue == null) {
                 close()
             }
             return readValue != null
@@ -92,17 +91,17 @@ class CsvIterator implements Iterator {
     }
 
     private def getNextValue() {
-        if(nextValueIsRead()) {
+        if (nextValueIsRead()) {
             def value = readValue
             readValue = null
             return value
         } else {
             def nextValue
-            for(;;) {
+            for (; ;) {
                 nextValue = csvReader.readNext()
-                if(nextValue == null) {
+                if (nextValue == null) {
                     break
-                } else if(isEmptyLine(nextValue)) {
+                } else if (isEmptyLine(nextValue)) {
                     // Continues the loop and reads another value
                 } else {
                     break

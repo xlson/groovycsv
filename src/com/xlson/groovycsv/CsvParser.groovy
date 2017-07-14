@@ -30,16 +30,15 @@ import au.com.bytecode.opencsv.CSVReader
  * Pete,Hansen'''
  *
  * def data = new CsvParser().parse(csv)
- * for(line in data) {
- *   println "$line.Name $line.Lastname"
- * }</pre>
+ * for(line in data) {*   println "$line.Name $line.Lastname"
+ *}</pre>
  *
  *
  * @author Leonard Gram
  * @since 0.1
  */
 class CsvParser {
-    
+
     /**
      * Number of characters used to provide to autodetection (in case auto
      * detection is used.
@@ -106,8 +105,7 @@ class CsvParser {
      * def data = new CsvParser().parse(csv, separator: '-')
      *
      * // Print all fruits that have a quantity higher than 3
-     * data.findAll{ (it.Quantity as int) > 3 }.each{ println it }
-     * </pre>
+     * data.findAll{ (it.Quantity as int) > 3 }.each{ println it }* </pre>
      * </p>
      * @param reader the csv to parse
      * @param args the configuration arguments
@@ -136,7 +134,7 @@ class CsvParser {
         Character separator
         Character quoteChar
         Character escapeChar = args.escapeChar
-        
+
         if (args.autoDetect == true) {
             reader = new PushbackReader(reader, autoDetectCharNumber)
             doAutoDetection(args, reader)
@@ -147,8 +145,8 @@ class CsvParser {
             quoteChar = args.quoteChar ?: '"'
         }
 
-        if(escapeChar != null) {
-            return new CSVReader(reader, separator, quoteChar, escapeChar)    
+        if (escapeChar != null) {
+            return new CSVReader(reader, separator, quoteChar, escapeChar)
         } else {
             return new CSVReader(reader, separator, quoteChar)
         }
@@ -156,15 +154,15 @@ class CsvParser {
 
     /**
      * Performs automatic detection of separator and quote character.
-     * 
+     *
      * It will search arguments for values 'auto' in separator and quoteChar. It
      * will return a new version of the arguments modified with the values that
      * were found.
-     * 
+     *
      * If nothing is detected, the values are removed from the args.
-     * 
+     *
      * Note that 
-     * 
+     *
      * @param args the configuration arguments.
      * @param text the CSV as a String.
      * @return modified args with detected. 
@@ -174,8 +172,8 @@ class CsvParser {
         def charsRead = reader.read(buf)
         def linesToInspect = new String(buf)
         reader.unread(buf, 0, charsRead)
-        
-        
+
+
         def autoDetector = new AutoDetectHandler(linesToInspect: linesToInspect)
         if (args.autoDetectQuoteChars) {
             autoDetector.autoDetectQuoteChars = args.autoDetectQuoteChars
@@ -188,12 +186,12 @@ class CsvParser {
             if (detectedSeparator) args.separator = detectedSeparator
             else args.remove("separator")
         }
-        if(!args.quoteChar) {
+        if (!args.quoteChar) {
             def detectedQuoteChar = autoDetector.autoDetectQuoteChar()
             if (detectedQuoteChar) args.quoteChar = detectedQuoteChar
             else args.remove("quoteChar")
         }
         return args
     }
-    
+
 }
