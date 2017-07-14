@@ -21,21 +21,15 @@ h,drink,60'''
         '''Fruit:Count
 Apple:5
 Pear:10
-Kiwi:200'''        
+Kiwi:200'''
     }
 
-  def getTestDataWithQuotedComma() { 
+  def getTestDataWithQuotedComma() {
     '''a,b
 -,abc-,4
 abc,-4-'''
   }
 
-  def getTestDataWithDuplicatedLines() {
-      '''a,b
-1,2
-1,2
-3,4'''
-  }
     def "Iterating over the parsed csv values are available by column name."() {
         setup:
         def data = new CsvParser().parse(getTestDataWithColumnNamesAnd3Rows())
@@ -56,42 +50,7 @@ abc,-4-'''
         def data = new CsvParser().parse(getTestDataWithColumnNamesAnd3Rows())
 
         expect:
-        data.findAll { (it.Age as int) > 46 }.size() == 2 
-    }
-
-    def "PropertyMapper has a toString() that returns all the data in it's columns."() {
-        setup:
-        def pm = new PropertyMapper(values: values, columns: columns)
-
-        expect:
-        pm.toString() == toStringRepresentation
-
-        where:
-        columns                     |   values          |   toStringRepresentation
-        ['a': 0, 'b': 1, 'c': 2]    |   ['1', '2', '3'] |   "a: 1, b: 2, c: 3"
-        ['Name': 0, 'Age': 1]       |   ['Mark', '56']  |   "Name: Mark, Age: 56"   
-    }
-
-    def "PropertyMapper has a toMap() that returns a map representation."() {
-        setup:
-        def pm = new PropertyMapper(values: values, columns: columns)
-
-        expect:
-        pm.toMap() == toMapRepresentation
-
-        where:
-        columns                     |   values          |   toMapRepresentation
-        ['a': 0, 'b': 1, 'c': 2]    |   ['1', '2', '3'] |   ['a': '1', 'b': '2', 'c': '3']
-        ['Name': 0, 'Age': 1]       |   ['Mark', '56']  |   ['Name': 'Mark', 'Age': '56']
-    }
-
-    def "It's possible to use .unique() to get only the unique lines of a csv."() {
-        setup:
-        def csv = CsvParser.parseCsv(testDataWithDuplicatedLines)
-        def data = csv.unique().collect{it}
-
-        expect:
-        data.size() == 2
+        data.findAll { (it.Age as int) > 46 }.size() == 2
     }
 
     def "readAll should never be called on the CSVReader instance used to parse the csv."() {
@@ -180,13 +139,13 @@ Apple,Sweden
         csv*.Number == ['5', '60']
     }
 
-    def "CsvParser should auto detect separator and quote character"() {
+    def "CsvParser can auto detect separator and quote character"() {
         when: "a CSV file is parsed with auto detection"
         def csv = new CsvParser().parse(autoDetect: true, csvData)
 
         then: "it should return the correct columns"
         csv*."$property" == values
-        
+
         where:
         csvData                         | property | values
         testDataWithColumnNamesAnd3Rows | "Age"    | ["45", "50", "65"]
@@ -196,11 +155,11 @@ Apple,Sweden
         testDataWithColumnNamesAnd2Rows | "Word"   | ["paris", "drink"]
         testDataWithColumnNamesAnd3Rows | "Email"  | ["mark@hamilton.com", "bildoktorn@tv4.se", "peps.persson@hotmail.com"]
     }
-    
+
     def "should allow to override auto detection"() {
         when: "autoDetect is active and a separator is provided"
         def csv = new CsvParser().parse(autoDetect: true, separator: ',', csvWithColonAsSeparator)
-        
+
         then: "the separator provided is used"
         csv*."Fruit:Count" == ["Apple:5", "Pear:10", "Kiwi:200"]
     }
@@ -250,5 +209,5 @@ Apple,Sweden
       testDataWithColumnNamesAnd2Rows                   | ['a', 'h']
       new StringReader(testDataWithColumnNamesAnd2Rows) | ['a', 'h']
   }
-    
+
 }
