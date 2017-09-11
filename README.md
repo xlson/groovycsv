@@ -94,3 +94,5 @@ GroovyCSV uses Gradle for building as is packaged with the gradle wrapper which 
 You will find the built jar in `./build/libs`. If you need any
 dependencies you can download them using `./gradlew downloadDeps`, they
 end up in the `lib` folder.
+
+[![](https://codescene.io/projects/1618/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/1618/jobs/latest-successful/results)
