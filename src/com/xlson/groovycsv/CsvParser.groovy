@@ -16,7 +16,7 @@
 
 package com.xlson.groovycsv
 
-import au.com.bytecode.opencsv.CSVReader
+import com.opencsv.CSVReader
 
 /**
  * Helper class used to parse information from csv files using the column names

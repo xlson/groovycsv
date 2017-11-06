@@ -1,7 +1,7 @@
 package com.xlson.groovycsv
 
+import com.opencsv.CSVReader
 import spock.lang.*
-import au.com.bytecode.opencsv.CSVReader
 
 class CsvParserSpec extends Specification {
     def getTestDataWithColumnNamesAnd3Rows() {
@@ -118,7 +118,7 @@ abc,-4-'''
 
     }
 
-    def "Parser quietly ignores empty lines."() {
+    def "Parser quietly ignores one empty line."() {
         setup:
         def csvData = '''Fruit,Country
 
@@ -127,9 +127,55 @@ Apple,Sweden
         def csv = new CsvParser().parse(csvData)
 
         expect:
-        csv.hasNext()
-        csv.next().toMap() == ['Fruit'  : 'Apple',
-                               'Country': 'Sweden']
+        for (line in csv) {
+            line.Fruit == 'Apple'
+            line.Country == 'Sweden'
+        }
+    }
+
+    def "Parser quitely ignores multiple empty lines."() {
+        setup:
+        def csvData = '''Color,Day
+Red,Monday
+
+
+
+Black,Friday'''
+
+        def csv = new CsvParser().parse(csvData)
+
+        expect:
+        def firstLine = csv.next()
+        firstLine.Color == 'Red'
+        firstLine.Day == 'Monday'
+
+        def secondLine = csv.next()
+        secondLine.Color == 'Black'
+        secondLine.Day == 'Friday'
+        csv.hasNext() == false
+    }
+
+    def "Parser quitely ignores multiple empty linessadadas."() {
+        setup:
+        def csvData = '''Color,Day
+
+
+
+Red,Monday
+
+
+
+Black,Friday
+
+
+'''
+
+        def csv = new CsvParser().parse(csvData)
+
+        expect:
+        for (line in csv) {
+            println line
+        }
     }
 
     def "Parse supports java.io.Reader as input."() {

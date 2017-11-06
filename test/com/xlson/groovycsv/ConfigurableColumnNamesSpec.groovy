@@ -1,7 +1,7 @@
 package com.xlson.groovycsv
 
+import com.opencsv.CSVReader
 import spock.lang.Specification
-import au.com.bytecode.opencsv.CSVReader
 
 class ConfigurableColumnNamesSpec extends Specification {
 
