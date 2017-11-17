@@ -62,7 +62,7 @@ if(isSetupForDeployToMavenCentral()) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.8'
+    gradleVersion = '4.3.1'
 }
 
 task downloadDeps << {
