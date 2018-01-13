@@ -4,3 +4,4 @@ lib/*
 _site
 gradle.properties
 .idea
+groovycsv.iml
