@@ -139,6 +139,7 @@ class CsvParser {
         Character separator
         Character quoteChar
         Character escapeChar = args.escapeChar
+        Integer skipLines = args.skipLines ?: 0
 
         if (args.autoDetect == true) {
             reader = new PushbackReader(reader, autoDetectCharNumber)
@@ -151,9 +152,9 @@ class CsvParser {
         }
 
         if (escapeChar != null) {
-            return new CSVReader(reader, separator, quoteChar, escapeChar)
+            return new CSVReader(reader, separator, quoteChar, escapeChar, skipLines)
         } else {
-            return new CSVReader(reader, separator, quoteChar)
+            return new CSVReader(reader, separator, quoteChar, skipLines)
         }
     }
 
