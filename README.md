@@ -19,6 +19,7 @@ Package structure was changed from `com.xlson.csvparser` to
 * Full support for OpenCSV's configurability
 * Support for guessing separator and/or quote character
 * Support for reading csv without headers
+* Support for skip initial lines of csv
 
 ## Example
 

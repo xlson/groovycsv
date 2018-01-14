@@ -227,4 +227,21 @@ Leonard,Gram,Sweden"""
             line.Country == 'Sweden'
         }
     }
+
+    def "Parsing csv with skiping initial lines."() {
+
+       def csvWithSkipLines = '''skiped line1
+skipped line2
+Letter,Word,Number
+a,paris,5
+h,drink,60'''
+        when:
+        def csv = new CsvParser().parse(skipLines: 2, csvWithSkipLines)
+        def line = csv.next()
+
+        then:
+        line["Letter"] == "a"
+        line["Word"] == "paris"
+        line["Number"] == "5"
+    }
 }
