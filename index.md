@@ -3,19 +3,19 @@ title: xlson/groovycsv @ GitHub
 layout: default
 ---
 
-GroovyCSV is a library to make csv processing just a little bit Groovier. The library uses [opencsv](https://github.com/EmergentOrder/opencsv) behind the scenes and merely tries to add a thin layer of "Groovy-ness" to the mix.
+GroovyCSV is a library to make csv processing just a little bit Groovier. The library uses [opencsv](http://opencsv.sourceforge.net/) behind the scenes and merely tries to add a thin layer of "Groovy-ness" to the mix.
 
 ## Latest version
 
-1.2
+1.3
 
 ## Dependencies
 
-[opencsv 2.4](https://github.com/EmergentOrder/opencsv)
+[opencsv 4.x](https://github.com/EmergentOrder/opencsv)
 
 ## Documentation and more information
 
-* [Javadoc](docs/1.2/javadoc/)
+* [Javadoc](docs/1.3/javadoc/)
 
 ## Features
 
@@ -26,6 +26,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 * Full support for OpenCSV's configurability
 * Support for guessing separator and/or quote character
 * Support for reading csv without headers
+* Support for skipping lines at the beginning as well as empty lines
 
 ## Arguments to parse or parseCsv
 
@@ -35,13 +36,14 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 * *autoDetect*: sets up autodetect that will honor other configurations you've done (default: false)
 * *columnNames*: set custom column names instead of using the first line
 * *readFirstLine*: reads the first line as csv instead of using it as headers
+* *skipLines*: skips the specified number of lines at the beginning (default: 0)
 
 
 ## Usage example
 
 #### Basic usage
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.2')
+    @Grab('com.xlson.groovycsv:groovycsv:1.3')
     import static com.xlson.groovycsv.CsvParser.parseCsv
     def csv = '''ID,Product
     3,Shoe
@@ -59,7 +61,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Custom separator and quote character
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.2')
+    @Grab('com.xlson.groovycsv:groovycsv:1.3')
     import com.xlson.groovycsv.CsvParser
     def csv = '''Name-Lastname
     Mark-'Anderson-Nielsen'
@@ -77,7 +79,7 @@ GroovyCSV is a library to make csv processing just a little bit Groovier. The li
 
 #### Parsing a headerless file
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.2')
+    @Grab('com.xlson.groovycsv:groovycsv:1.3')
     import com.xlson.groovycsv.CsvParser
     def csv = '''Apple,2
     Pear,5'''
@@ -105,8 +107,16 @@ Leonard Gram (leo@xlson.com)
 
 - [antoineroux](https://github.com/antoineroux)
 - [gmazelier](https://github.com/gmazelier)
+- [Rayman2200](https://github.com/Rayman2200)
+- [vikram-sewadra](https://github.com/vikram-sewadra)
 
 ## Downloads
+
+*GroovyCSV 1.3*
+
+* [groovycsv-1.3.jar](https://oss.sonatype.org/service/local/repositories/releases/content/com/xlson/groovycsv/groovycsv/1.3/groovycsv-1.3.jar)
+* [groovycsv-1.3-javadoc.jar](https://oss.sonatype.org/service/local/repositories/releases/content/com/xlson/groovycsv/groovycsv/1.3/groovycsv-1.3-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.3/javadoc/)
 
 *GroovyCSV 1.2*
 
