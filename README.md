@@ -2,21 +2,15 @@
 
 GroovyCSV is a library for Groovy which aims to make csv data
 easier (and more idiomatically Groovy) to work with. The library was inspired by @[goeh's](http://twitter.com/goeh)
-[ExcelBuilder](http://www.technipelago.se/blog/?p=44) that lets you
+[ExcelBuilder](http://www.technipelago.se/blog/show/groovy-poi-excel) that lets you
 iterate over rows in the excel file using `eachLine` and access values
 using the column names.
-
-*Important*
-
-Package structure was changed from `com.xlson.csvparser` to
-`com.xlson.groovycsv` between release 0.1 and 0.2.
 
 ## Features
 
 * Value-access by header name or position
 * Iteration using the ordinary collection methods (`findAll`, `collect`
   and so on)
-* Full support for OpenCSV's configurability
 * Support for guessing separator and/or quote character
 * Support for reading csv without headers
 * Support for skipping initial lines of the csv
@@ -27,7 +21,7 @@ The parse method returns an iterator over the rows in the csv. This
 means we can use any of the default groovy ways to iterate, in this
 example we see the for each loop in use.
 
-    @Grab('com.xlson.groovycsv:groovycsv:1.1')
+    @Grab('com.xlson.groovycsv:groovycsv:1.3')
     import static com.xlson.groovycsv.CsvParser.parseCsv
 
     def csv = '''Name,Lastname
@@ -48,8 +42,7 @@ The parse method takes a String or a Reader as argument.
 
 ## Getting GroovyCSV
 
-GroovyCSV is available in Maven Central. It is also available directly from GitHub
-(links below).
+GroovyCSV is available through Maven Central.
 
 ### Maven & Ivy configuration
 
@@ -57,26 +50,26 @@ GroovyCSV is available in Maven Central. It is also available directly from GitH
 
 * *GroupId:* com.xlson.groovycsv
 * *ArtifactId:* groovycsv
-* *Version:* 1.2
+* *Version:* 1.3
 
 #### Latest snapshot
 
-* *Version:* 1.2.1-SNAPSHOT
+* *Version:* 1.3-SNAPSHOT
 * *Repository:* https://oss.sonatype.org/content/groups/public/
 
 ### Downloads
 
-*GroovyCSV 1.1*
+*GroovyCSV 1.3*
 
 
-* [groovycsv-1.1.jar](https://github.com/xlson/groovycsv/releases/download/releases%2F1.1/groovycsv-1.1.jar)
-* [groovycsv-1.1-javadoc.jar](https://github.com/xlson/groovycsv/releases/download/releases%2F1.1/groovycsv-1.1-javadoc.jar)
-* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.1/javadoc/)
+* [groovycsv-1.3.jar](http://repo1.maven.org/maven2/com/xlson/groovycsv/groovycsv/1.3/groovycsv-1.3.jar)
+* [groovycsv-1.3-javadoc.jar](http://repo1.maven.org/maven2/com/xlson/groovycsv/groovycsv/1.3/groovycsv-1.3-javadoc.jar)
+* [Javadoc Online](http://xlson.github.com/groovycsv/docs/1.3/javadoc/)
 
 ## Dependencies
 
-* [Groovy 1.8.x](http://groovy.codehaus.org)
-* [OpenCSV 2.x](http://opencsv.sourceforge.net/)
+* [Groovy 1.8.x](http://groovy.codehaus.org) or later
+* [OpenCSV 4.x](http://opencsv.sourceforge.net/)
 
 
 Many thanks to everyone who's contributed to the project and everyone in the OpenCSV team for
