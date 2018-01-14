@@ -95,6 +95,7 @@ class CsvParser {
      * <li>columnNames: set custom column names instead of using the first line
      * <li>readFirstLine: reads the first line as csv instead of using it as headers
      * <li>trimWhitespaceFromColumnNames: trims leading and trailing whitespace for column names when parsing them (default: false)
+     * <li>skipLines: skips the specified number of lines at the beginning (default: 0)
      *
      * <p>
      * Usage:

@@ -274,9 +274,9 @@ Leonard,Gram,Sweden"""
         }
     }
 
-    def "Parsing csv with skiping initial lines."() {
+    def "CsvParser can skip lines at the beginning of the file."() {
 
-       def csvWithSkipLines = '''skiped line1
+       def csvWithSkipLines = '''skipped line1
 skipped line2
 Letter,Word,Number
 a,paris,5
