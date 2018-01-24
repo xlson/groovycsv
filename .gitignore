@@ -5,3 +5,4 @@ _site
 gradle.properties
 .idea
 groovycsv.iml
+out/
