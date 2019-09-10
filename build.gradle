@@ -28,7 +28,7 @@ dependencies {
 version = '1.4-SNAPSHOT'
 group = 'com.xlson.groovycsv'
 
-sourceSets{
+sourceSets {
     main.groovy.srcDirs = ['src']
     test.groovy.srcDirs = ['test']
 }
@@ -39,20 +39,21 @@ task groovydocJar(type: Jar, dependsOn: groovydoc) {
 }
 
 task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
     archiveClassifier.set('sources')
+    from sourceSets.main.allSource
 }
 
 artifacts {
-  archives groovydocJar, sourcesJar
-}
-if(isSetupForDeployToMavenCentral()) {
-  signing {
-    sign configurations.archives
-  }
+    archives groovydocJar, sourcesJar
 }
 
-task downloadDeps{
+if (isSetupForDeployToMavenCentral()) {
+    signing {
+        sign configurations.archives
+    }
+}
+
+task downloadDeps {
     doLast {
         def libDir = file('lib')
         ant.delete(dir: libDir)
@@ -65,79 +66,79 @@ task downloadDeps{
 
 
 def isSetupForDeployToMavenCentral() {
-  def requiredProperties = ['ossrhUsername',
-                            'ossrhPassword',
-                            'signing.keyId',
-                            'signing.password',
-                            'signing.secretKeyRingFile']
-  for(prop in requiredProperties) {
-    if(!project.hasProperty(prop)) {
-      return false
+    def requiredProperties = ['ossrhUsername',
+                              'ossrhPassword',
+                              'signing.keyId',
+                              'signing.password',
+                              'signing.secretKeyRingFile']
+    for (prop in requiredProperties) {
+        if (!project.hasProperty(prop)) {
+            return false
+        }
     }
-  }
-  return true
+    return true
 }
 
 uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-      if(isSetupForDeployToMavenCentral()) {
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-          authentication(userName: ossrhUsername, password: ossrhPassword)
+            if (isSetupForDeployToMavenCentral()) {
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+            }
+
+            pom.project {
+                name 'GroovyCSV'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Library for parsing csv in Groovy'
+                url 'http://github.com/xlson/groovycsv'
+                inceptionYear '2010'
+
+                scm {
+                    connection 'scm:git:git@github.com:xlson/groovycsv.git'
+                    developerConnection 'scm:git:git@github.com:xlson/groovycsv.git'
+                    url 'http://github.com/xlson/groovycsv'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'xlson'
+                        name 'Leonard Gram'
+                        email 'leo@xlson.com'
+                        url 'http://xlson.com/'
+                        timezone '+1'
+                    }
+                }
+            }
+
+            pom.withXml { XmlProvider xmlProvider ->
+                def xml = xmlProvider.asString()
+                def pomXml = new XmlParser().parseText(xml.toString())
+
+                pomXml.version[0] + { packaging('jar') }
+
+                def newXml = new StringWriter()
+                def printer = new XmlNodePrinter(new PrintWriter(newXml))
+                printer.preserveWhitespace = true
+                printer.print(pomXml)
+                xml.setLength(0)
+                xml.append(newXml.toString())
+            }
         }
-
-        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-          authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
-      }
-
-      pom.project {
-        name 'GroovyCSV'
-        packaging 'jar'
-        // optionally artifactId can be defined here
-        description 'Library for parsing csv in Groovy'
-        url 'http://github.com/xlson/groovycsv'
-        inceptionYear '2010'
-
-        scm {
-          connection 'scm:git:git@github.com:xlson/groovycsv.git'
-          developerConnection 'scm:git:git@github.com:xlson/groovycsv.git'
-          url 'http://github.com/xlson/groovycsv'
-        }
-
-        licenses {
-          license {
-            name 'The Apache License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          }
-        }
-
-        developers {
-          developer {
-            id 'xlson'
-            name 'Leonard Gram'
-            email 'leo@xlson.com'
-            url 'http://xlson.com/'
-            timezone '+1'
-          }
-        }
-      }
-
-      pom.withXml { XmlProvider xmlProvider ->
-        def xml = xmlProvider.asString()
-        def pomXml = new XmlParser().parseText(xml.toString())
-
-        pomXml.version[0] + { packaging('jar') }
-
-        def newXml = new StringWriter()
-        def printer = new XmlNodePrinter(new PrintWriter(newXml))
-        printer.preserveWhitespace = true
-        printer.print(pomXml)
-        xml.setLength(0)
-        xml.append(newXml.toString())
-      }
     }
-  }
 }
