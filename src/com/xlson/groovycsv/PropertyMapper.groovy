@@ -48,6 +48,9 @@ class PropertyMapper {
     def propertyMissing(String name) {
         def index = columns[name]
         if (index != null) {
+            if(values?.size() <= index) {
+                return null
+            }
             values[index]
         } else {
             throw new MissingPropertyException(name)
