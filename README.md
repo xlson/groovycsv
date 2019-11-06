@@ -69,7 +69,7 @@ GroovyCSV is available through Maven Central.
 ## Dependencies
 
 * [Groovy 1.8.x](http://groovy.codehaus.org) or later
-* [OpenCSV 4.x](http://opencsv.sourceforge.net/)
+* [OpenCSV 5.x](http://opencsv.sourceforge.net/)
 
 
 Many thanks to everyone who's contributed to the project and everyone in the OpenCSV team for
