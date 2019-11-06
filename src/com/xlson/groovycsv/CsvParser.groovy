@@ -16,7 +16,11 @@
 
 package com.xlson.groovycsv
 
+import com.opencsv.CSVParser
 import com.opencsv.CSVReader
+import com.opencsv.ICSVParser
+import com.opencsv.validators.LineValidatorAggregator
+import com.opencsv.validators.RowValidatorAggregator
 
 /**
  * Helper class used to parse information from csv files using the column names
@@ -152,11 +156,23 @@ class CsvParser {
             quoteChar = args.quoteChar ?: '"'
         }
 
-        if (escapeChar != null) {
-            return new CSVReader(reader, separator, quoteChar, escapeChar, skipLines)
-        } else {
-            return new CSVReader(reader, separator, quoteChar, skipLines)
+        if (escapeChar == null) {
+            escapeChar = ICSVParser.DEFAULT_ESCAPE_CHARACTER
         }
+        CSVParser parser = new CSVParser(separator, quoteChar, escapeChar,
+                                         ICSVParser.DEFAULT_STRICT_QUOTES,
+                                         ICSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE,
+                                         ICSVParser.DEFAULT_IGNORE_QUOTATIONS,
+                                         ICSVParser.DEFAULT_NULL_FIELD_INDICATOR,
+                                         Locale.getDefault())
+        return new CSVReader(reader, skipLines, parser,
+                             CSVReader.DEFAULT_KEEP_CR,
+                             CSVReader.DEFAULT_VERIFY_READER,
+                             CSVReader.DEFAULT_MULTILINE_LIMIT,
+                             Locale.getDefault(),
+                             new LineValidatorAggregator(),
+                             new RowValidatorAggregator(),
+                             null)
     }
 
     /**
