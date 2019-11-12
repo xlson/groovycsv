@@ -290,4 +290,19 @@ h,drink,60'''
         line["Word"] == "paris"
         line["Number"] == "5"
     }
+
+    def "CsvParser and different cardinality lines"() {
+        given:
+        def csvWithDifferentCardinality = '''header1,header2,header3
+val1,val2
+val1,val2,val3'''
+
+        when:
+        def csv = new CsvParser().parse(csvWithDifferentCardinality)
+        def line = csv.next()
+
+        then:
+        line["header3"] == null
+
+    }
 }
