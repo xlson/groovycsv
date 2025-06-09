@@ -30,6 +30,11 @@ dependencies {
     testImplementation('org.spockframework:spock-core:2.4-M6-groovy-4.0') {
         exclude group: 'org.codehaus.groovy'
     }
+    
+    // Mocking libraries required by Spock for Java class mocking
+    testImplementation 'net.bytebuddy:byte-buddy:1.14.8'
+    testImplementation 'org.mockito:mockito-core:5.7.0'
+    testImplementation 'org.objenesis:objenesis:3.3'
 }
 
 version = '1.3'
@@ -95,3 +100,7 @@ def isSetupForDeployToMavenCentral() {
 }
 
 // TODO: Update to use maven-publish plugin syntax
+
+test {
+    useJUnitPlatform()
+}
