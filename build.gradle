@@ -37,7 +37,7 @@ dependencies {
     testImplementation 'org.objenesis:objenesis:3.3'
 }
 
-version = '1.3'
+version = '1.4-SNAPSHOT'
 group = 'com.xlson.groovycsv'
 
 sourceSets {
